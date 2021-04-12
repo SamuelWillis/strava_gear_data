@@ -1,4 +1,5 @@
 defmodule StravaGearDataWeb.AuthLive do
+  @moduledoc false
   use StravaGearDataWeb, :live_view
 
   @impl true

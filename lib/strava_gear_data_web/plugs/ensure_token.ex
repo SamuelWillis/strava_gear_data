@@ -1,4 +1,9 @@
 defmodule StravaGearDataWeb.Plugs.EnsureToken do
+  @moduledoc """
+  Plug to ensure that an auth token appears in the session.
+
+  Used on routes that require an authenticated athlete.
+  """
   import Plug.Conn
 
   def init(opts), do: opts

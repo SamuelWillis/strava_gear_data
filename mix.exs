@@ -47,6 +47,9 @@ defmodule StravaGearData.MixProject do
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"},
       # dev + test
+      {:credo, ">= 0.0.0", only: [:dev], runtime: false},
+      {:dialyxir, ">= 0.0.0", only: [:dev], runtime: false},
+      {:ex_check, "~> 0.14.0", only: [:dev], runtime: false},
       {:floki, ">= 0.27.0", only: :test},
       {:phoenix_live_reload, "~> 1.2", only: :dev}
     ]

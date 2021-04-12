@@ -1,4 +1,9 @@
 defmodule StravaGearDataWeb.Plugs.EnsureNoToken do
+  @moduledoc """
+  Ensures no auth token appears in the session.
+
+  Used on routes that are for initializing authorization.
+  """
   import Plug.Conn
 
   def init(opts), do: opts

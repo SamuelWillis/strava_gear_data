@@ -12,7 +12,7 @@ defmodule StravaGearDataWeb.AuthController do
   end
 
   def callback(conn, %{"code" => code}) do
-    strava_oauth_token = Api.get_token!(code: code) |> IO.inspect()
+    strava_oauth_token = Api.get_token!(code: code)
 
     # %Athletes.Athlete{} = athlete = Athletes.initialize_athlete!(code: code)
 

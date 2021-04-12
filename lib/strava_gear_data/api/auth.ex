@@ -1,4 +1,10 @@
 defmodule StravaGearData.Api.Auth do
+  @moduledoc """
+  OAuth2 strategy for authenticating with the Strava API.
+
+  [See OAuth2 docs](https://hexdocs.pm/oauth2/readme.html#write-your-own-strategy)
+  """
+
   use OAuth2.Strategy
 
   alias OAuth2.Client
