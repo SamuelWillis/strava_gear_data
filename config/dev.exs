@@ -2,9 +2,9 @@ use Mix.Config
 
 # Configure your database
 config :strava_gear_data, StravaGearData.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "strava_gear_data_dev",
+  username: System.get_env("DB_USER"),
+  password: System.get_env("DB_PASSWORD"),
+  database: System.get_env("DB_NAME"),
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
@@ -74,3 +74,5 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :oauth2, debug: true

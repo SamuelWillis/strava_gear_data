@@ -1,6 +1,8 @@
 defmodule StravaGearDataWeb.Router do
   use StravaGearDataWeb, :router
 
+  alias StravaGearDataWeb.Plugs
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -15,9 +17,24 @@ defmodule StravaGearDataWeb.Router do
   end
 
   scope "/", StravaGearDataWeb do
-    pipe_through :browser
+    pipe_through([:browser, Plugs.EnsureToken])
 
-    live "/", PageLive, :index
+    live "/", GearLive, :index
+  end
+
+  scope "/signup", StravaGearDataWeb do
+    pipe_through([:browser, Plugs.EnsureNoToken])
+
+    live "/", AuthLive, :index
+  end
+
+  scope "/api", StravaGearDataWeb do
+    pipe_through(:api)
+
+    scope path: "/auth" do
+      get "/", AuthController, :auth
+      get "/callback", AuthController, :callback
+    end
   end
 
   # Other scopes may use custom stacks.
