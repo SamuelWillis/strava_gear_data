@@ -1,4 +1,4 @@
-name: VERIFY
+name: CI
 
 on:
   push:
@@ -107,7 +107,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 12.4.0
+          node-version: 14.15.1
       - name: Install frontend deps
         run: cd assets && yarn install
       - name: Deploy the JS assets for feature tests
