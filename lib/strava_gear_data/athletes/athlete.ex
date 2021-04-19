@@ -5,6 +5,8 @@ defmodule StravaGearData.Athletes.Athlete do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias StravaGearData.Athletes.AccessToken
+
   @type t :: %__MODULE__{
           id: binary(),
           strava_id: :integer,
@@ -21,6 +23,8 @@ defmodule StravaGearData.Athletes.Athlete do
     field :last_name, :string
     field :username, :string
     field :profile_picture, :string
+
+    has_one :access_token, AccessToken, on_replace: :update
 
     timestamps()
   end

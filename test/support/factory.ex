@@ -19,4 +19,20 @@ defmodule StravaGearData.Factory do
         profile_picture: "https://profile.picture/of/athlete"
     }
   end
+
+  def with_access_token(athlete) do
+    %{
+      athlete
+      | access_token: build(:access_token, athlete: nil)
+    }
+  end
+
+  def access_token_factory() do
+    %StravaGearData.Athletes.AccessToken{
+      athlete: build(:athlete),
+      token: "fake-token",
+      token_type: "Bearer",
+      expires_at: DateTime.truncate(DateTime.utc_now(), :second)
+    }
+  end
 end
