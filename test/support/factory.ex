@@ -27,12 +27,34 @@ defmodule StravaGearData.Factory do
     }
   end
 
+  def with_refresh_token(athlete) do
+    %{
+      athlete
+      | refresh_token: build(:refresh_token, athlete: nil)
+    }
+  end
+
+  def with_auth_tokens(athlete) do
+    %{
+      athlete
+      | access_token: build(:access_token, athlete: nil),
+        refresh_token: build(:refresh_token, athlete: nil)
+    }
+  end
+
   def access_token_factory() do
     %StravaGearData.Athletes.AccessToken{
       athlete: build(:athlete),
       token: "fake-token",
       token_type: "Bearer",
       expires_at: DateTime.truncate(DateTime.utc_now(), :second)
+    }
+  end
+
+  def refresh_token_factory() do
+    %StravaGearData.Athletes.RefreshToken{
+      athlete: build(:athlete),
+      token: "fake-token"
     }
   end
 end
