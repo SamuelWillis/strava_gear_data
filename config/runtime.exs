@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 config :strava_gear_data, :api,
   client_id: System.get_env("STRAVA_CLIENT_ID"),
