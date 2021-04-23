@@ -1,5 +1,5 @@
 defmodule StravaGearData.AthletesTest do
-  use StravaGearData.DataCase
+  use StravaGearData.DataCase, async: true
 
   alias StravaGearData.Athletes
   alias StravaGearData.Athletes.AccessToken

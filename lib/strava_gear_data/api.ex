@@ -5,7 +5,14 @@ defmodule StravaGearData.Api do
 
   alias StravaGearData.Api
 
-  defdelegate authorize_url!, to: Api.Auth
-
-  defdelegate get_token!(params), to: Api.Auth
+  @doc """
+  Exchange the authorization code for the token and authenticated athlete.
+  """
+  @spec exchange_code_for_token(code: binary()) :: Api.Token.t()
+  def exchange_code_for_token(params) do
+    params
+    |> Api.Auth.get_token!()
+    |> Map.fetch!(:token)
+    |> Api.Token.from!()
+  end
 end

@@ -1,13 +1,13 @@
 defmodule StravaGearDataWeb.AuthControllerTest do
   use StravaGearDataWeb.ConnCase, async: true
 
-  alias StravaGearData.Api
+  alias StravaGearData.Authorization
 
   describe "auth/2" do
     test "redirects strava auth route", %{conn: conn} do
       conn = get(conn, Routes.auth_path(conn, :auth))
 
-      assert redirected_to(conn, 302) == Api.authorize_url!()
+      assert redirected_to(conn, 302) == Authorization.authorize_url!()
     end
   end
 
