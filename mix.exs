@@ -52,6 +52,7 @@ defmodule StravaGearData.MixProject do
       {:ex_check, "~> 0.14.0", only: [:dev], runtime: false},
       {:floki, ">= 0.27.0", only: :test},
       {:ex_machina, "~> 2.7.0", only: :test},
+      {:mix_test_interactive, "~> 1.0", only: :dev, runtime: false},
       {:phoenix_live_reload, "~> 1.2", only: :dev}
     ]
   end
