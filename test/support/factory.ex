@@ -34,12 +34,10 @@ defmodule StravaGearData.Factory do
     }
   end
 
-  def with_auth_tokens(athlete) do
-    %{
-      athlete
-      | access_token: build(:access_token, athlete: nil),
-        refresh_token: build(:refresh_token, athlete: nil)
-    }
+  def with_tokens(athlete) do
+    athlete
+    |> with_access_token()
+    |> with_refresh_token()
   end
 
   def access_token_factory() do

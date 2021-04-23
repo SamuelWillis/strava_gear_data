@@ -25,7 +25,7 @@ defmodule StravaGearData.Athletes.AccessToken do
   def changeset(access_token, attrs) do
     access_token
     |> cast(attrs, [:athlete_id, :token, :expires_at, :token_type])
-    |> validate_required([:athlete_id, :token, :expires_at, :token_type])
+    |> validate_required([:token, :expires_at, :token_type])
     |> unique_constraint(:athlete_id)
     |> assoc_constraint(:athlete)
   end
