@@ -21,8 +21,8 @@ defmodule StravaGearData.Athletes.RefreshToken do
   def changeset(refresh_token, attrs) do
     refresh_token
     |> cast(attrs, [:athlete_id, :token])
+    |> validate_required([:token])
     |> assoc_constraint(:athlete)
     |> unique_constraint(:athlete_id)
-    |> validate_required([:athlete_id, :token])
   end
 end

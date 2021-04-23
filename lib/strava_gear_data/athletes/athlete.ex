@@ -37,5 +37,7 @@ defmodule StravaGearData.Athletes.Athlete do
     |> cast(attrs, [:strava_id, :first_name, :last_name, :username, :profile_picture])
     |> unique_constraint(:strava_id)
     |> validate_required([:strava_id])
+    |> cast_assoc(:access_token, required: true)
+    |> cast_assoc(:refresh_token, required: true)
   end
 end

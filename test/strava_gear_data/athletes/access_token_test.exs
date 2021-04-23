@@ -9,7 +9,6 @@ defmodule StravaGearData.Athletes.AccessTokenTest do
 
       refute changeset.valid?, inspect(changeset)
 
-      assert "can't be blank" in errors_on(changeset).athlete_id
       assert "can't be blank" in errors_on(changeset).expires_at
       assert "can't be blank" in errors_on(changeset).token
       assert "can't be blank" in errors_on(changeset).token_type
