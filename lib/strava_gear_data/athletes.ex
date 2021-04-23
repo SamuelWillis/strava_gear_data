@@ -2,9 +2,8 @@ defmodule StravaGearData.Athletes do
   @moduledoc """
   The Athletes context.
   """
-  alias StravaGearData.Repo
-
   alias StravaGearData.Athletes.Athlete
+  alias StravaGearData.Repo
 
   @doc """
   Gets a single athlete.

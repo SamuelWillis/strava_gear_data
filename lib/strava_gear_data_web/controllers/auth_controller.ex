@@ -1,29 +1,25 @@
 defmodule StravaGearDataWeb.AuthController do
   use StravaGearDataWeb, :controller
 
-  alias StravaGearData.Api
-  # alias Phoenix.Token
+  alias StravaGearData.Authorization
 
   plug :fetch_session when action in [:callback]
   plug :fetch_flash when action in [:callback]
 
   def auth(conn, _params) do
-    redirect(conn, external: Api.authorize_url!())
+    redirect(conn, external: Authorization.authorize_url!())
   end
 
   def callback(conn, %{"code" => code}) do
-    strava_oauth_token = Api.get_token!(code: code)
-
-    # %Athletes.Athlete{} = athlete = Athletes.initialize_athlete!(code: code)
-
-    # token = Token.sign(StravaGearDataWeb.Endpoint, "athlete auth", athlete.id)
+    {:ok, athlete} = Authorization.authorize_new_athlete_from!(code: code)
+    session_token = Phoenix.Token.sign(StravaGearDataWeb.Endpoint, "athlete auth", athlete.id)
 
     conn
     |> put_flash(
       :info,
       "Successfully authorized your account. We are now fetching your data which can take a little while."
     )
-    |> put_session(:token, strava_oauth_token.token.access_token)
+    |> put_session(:token, session_token)
     |> redirect(to: Routes.gear_path(conn, :index))
   end
 
