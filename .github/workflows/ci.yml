@@ -13,51 +13,66 @@ jobs:
   elixirSetup:
     name: Set up Elixir
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        otp: [23.1.1]
+        elixir: [1.11.4]
+
     steps:
       - uses: actions/checkout@v2
-      - name: Cache Elixir dependencies
-        uses: actions/cache@v2
+
+      - uses: actions/cache@v1
+        id: deps-cache
         with:
-          path: |
-            deps
-            _build
-          key:
-            ${{ runner.os }}-mix-${{ hashFiles(format('{0}{1}',
-            github.workspace, '/mix.lock')) }}
-          restore-keys: |
-            ${{ runner.os }}-mix-
+          path: deps
+          key: ${{ runner.os }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+
+      - uses: actions/cache@v1
+        id: build-cache
+        with:
+          path: _build
+          key: ${{ runner.os }}-build-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+
       - name: Setup elixir
         uses: erlef/setup-elixir@v1
         with:
-          elixir-version: 1.11.1 # Define the elixir version [required]
-          otp-version: 23.1.1 # Define the OTP version [required]
+          otp-version: ${{ matrix.otp }}
+          elixir-version: ${{ matrix.elixir }}
+
       - name: Install test dependencies
         env:
           MIX_ENV: test
         run: mix do deps.get, deps.compile
+
       - name: Install dev dependencies and build PLTs
         run: mix do deps.get, deps.compile, dialyzer --plt
 
   jsSetup:
     name: Node.js/JavaScript
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [14.15.1]
+
     steps:
       - uses: actions/checkout@v2
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
+
+      - name: Find yarn cache location
+        id: yarn-cache
         run: echo "::set-output name=dir::$(yarn cache dir)"
-      - uses: actions/cache@v2
-        name: Cache JS dependencies
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+
+      - uses: actions/cache@v1
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          path: ${{ steps.yarn-cache.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 14.15.1
+          node-version: ${{ matrix.node }}
+
       - name: Install frontend deps
         run: cd assets && yarn install
 
@@ -65,6 +80,12 @@ jobs:
     name: ExCheck
     runs-on: ubuntu-latest
     needs: [elixirSetup, jsSetup]
+    strategy:
+      matrix:
+        otp: [23.1.1]
+        elixir: [1.11.4]
+        node: [14.15.1]
+
     services:
       db:
         image: postgres:12
@@ -75,41 +96,47 @@ jobs:
         options: >-
           --health-cmd pg_isready --health-interval 10s --health-timeout 5s
           --health-retries 5
+
     steps:
       - uses: actions/checkout@v2
-      - name: Cache Elixir dependencies
-        uses: actions/cache@v2
+
+      - uses: actions/cache@v1
+        id: deps-cache
         with:
-          path: |
-            deps
-            _build
-          key:
-            ${{ runner.os }}-mix-${{ hashFiles(format('{0}{1}',
-            github.workspace, '/mix.lock')) }}
-          restore-keys: |
-            ${{ runner.os }}-mix-
+          path: deps
+          key: ${{ runner.os }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+
+      - uses: actions/cache@v1
+        id: build-cache
+        with:
+          path: _build
+          key: ${{ runner.os }}-build-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+
       - name: Setup elixir
         uses: erlef/setup-elixir@v1
         with:
-          elixir-version: 1.11.1 # Define the elixir version [required]
-          otp-version: 23.1.1 # Define the OTP version [required]
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
+          elixir-version: ${{ matrix.elixir }}
+          otp-version: ${{ matrix.otp }}
+
+      - name: Find yarn cache location
+        id: yarn-cache
         run: echo "::set-output name=dir::$(yarn cache dir)"
-      - uses: actions/cache@v2
-        name: Cache JS dependencies
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+
+      - uses: actions/cache@v1
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          path: ${{ steps.yarn-cache.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 14.15.1
+          node-version: ${{ matrix.node }}
+
       - name: Install frontend deps
         run: cd assets && yarn install
+
       - name: Deploy the JS assets for feature tests
         run: cd assets && yarn deploy
 
@@ -127,3 +154,20 @@ jobs:
           DB_USER: postgres
           DB_PASSWORD: postgres
           DB_NAME: test_db
+
+  dispatchRelease:
+    name: Invoke CD
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: CD
+          token: ${{ secrets.PERSONAL_TOKEN }}
+    needs:
+      [
+        elixirSetup,
+        jsSetup,
+        exCheck
+      ]
