@@ -40,6 +40,17 @@ defmodule StravaGearData.AthletesTest do
     end
   end
 
+  describe "get_athlete_by_strava_id/1" do
+    test "returns the athlete with given strava id" do
+      athlete = insert(:athlete, strava_id: 1234)
+      assert Athletes.get_athlete_by_strava_id(athlete.strava_id) == athlete
+    end
+
+    test "returns nil if no athlete with given strava_id" do
+      assert is_nil(Athletes.get_athlete_by_strava_id(1234))
+    end
+  end
+
   describe "create_athlete/1" do
     test "valid data creates an athlete" do
       assert {:ok, %Athlete{} = athlete} = Athletes.create_athlete(@valid_attrs)

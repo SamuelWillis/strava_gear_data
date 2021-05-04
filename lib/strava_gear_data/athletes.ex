@@ -22,6 +22,12 @@ defmodule StravaGearData.Athletes do
   def get_athlete!(id), do: Repo.get!(Athlete, id)
 
   @doc """
+  Gets a single athlete by the provided strava id.
+  """
+  @spec get_athlete_by_strava_id(binary()) :: Athlete.t() | nil
+  def get_athlete_by_strava_id(strava_id), do: Repo.get_by(Athlete, strava_id: strava_id)
+
+  @doc """
   Creates a athlete.
 
   ## Examples
