@@ -6,6 +6,8 @@ defmodule StravaGearDataWeb.Endpoint do
   # Set :encryption_salt if you would also like to encrypt it.
   @session_options [
     store: :cookie,
+    # 60 days
+    max_age: 60 * 24 * 60 * 60,
     key: "_strava_gear_data_key",
     signing_salt: "WigRfSGq"
   ]
