@@ -11,7 +11,8 @@ defmodule StravaGearDataWeb.AuthController do
   end
 
   def callback(conn, %{"code" => code}) do
-    {:ok, athlete} = Authorization.authorize_new_athlete_from!(code: code)
+    {:ok, athlete} = Authorization.authorize_athlete_from!(code: code)
+
     session_token = Phoenix.Token.sign(StravaGearDataWeb.Endpoint, "athlete auth", athlete.id)
 
     conn
