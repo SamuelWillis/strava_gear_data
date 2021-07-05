@@ -7,6 +7,7 @@ defmodule StravaGearData.Athletes.Athlete do
 
   alias StravaGearData.Athletes.AccessToken
   alias StravaGearData.Athletes.RefreshToken
+  alias StravaGearData.Gear.Gear
 
   @type t :: %__MODULE__{
           id: binary(),
@@ -14,7 +15,10 @@ defmodule StravaGearData.Athletes.Athlete do
           first_name: String.t() | nil,
           last_name: String.t() | nil,
           username: String.t() | nil,
-          profile_picture: String.t() | nil
+          profile_picture: String.t() | nil,
+          gear: [Gear] | nil,
+          access_token: AccessToken | nil,
+          refresh_token: RefreshToken | nil
         }
 
   @primary_key {:id, :binary_id, autogenerate: true}
@@ -24,6 +28,8 @@ defmodule StravaGearData.Athletes.Athlete do
     field :last_name, :string
     field :username, :string
     field :profile_picture, :string
+
+    has_many :gear, Gear, on_replace: :delete_if_exists
 
     has_one :access_token, AccessToken, on_replace: :update
     has_one :refresh_token, RefreshToken, on_replace: :update
