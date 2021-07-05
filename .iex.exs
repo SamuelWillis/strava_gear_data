@@ -1,0 +1,7 @@
+import_if_available(Ecto.Query)
+
+alias StravaGearData.Api
+alias StravaGearData.Athletes
+alias StravaGearData.Authorization
+alias StravaGearData.DataCollection
+alias StravaGearData.Repo
