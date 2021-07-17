@@ -14,11 +14,24 @@ defmodule StravaGearData.Authorization do
   @spec authorize_athlete_from!(code: binary()) ::
           {:ok, Athletes.Athlete.t()} | {:error, Ecto.Changeset.t()}
   def authorize_athlete_from!(params) do
-    api_token = Api.exchange_code_for_token(params)
+    params
+    |> Api.exchange_code_for_token()
+    |> update_athlete_tokens()
+  end
 
+  def update_athlete_tokens(api_token) do
     api_token
-    |> build_athlete_attrs()
+    |> build_athlete_attrs
     |> insert_or_update_athlete()
+  end
+
+  def update_athlete_tokens(%Athlete{} = athlete, api_token) do
+    attrs =
+      %{}
+      |> put_access_token_attrs(api_token)
+      |> put_refresh_token_attrs(api_token)
+
+    Athletes.update_athlete(athlete, attrs)
   end
 
   @doc false

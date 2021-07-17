@@ -1,0 +1,57 @@
+defmodule StravaGearData.GearTest do
+  use StravaGearData.DataCase, async: true
+
+  alias StravaGearData.Gear
+
+  describe "insert_all/1" do
+    test "inserts new gear" do
+      athlete = insert(:athlete)
+
+      attrs = [
+        %{
+          athlete_id: athlete.id,
+          strava_id: "gear_id",
+          name: "gear_name",
+          primary: true,
+          inserted_at: NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second),
+          updated_at: NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second)
+        }
+      ]
+
+      assert {1, _} = Gear.insert_all(attrs)
+
+      gear_attrs = List.first(attrs)
+      %{gear: [updated_gear]} = athlete |> Repo.reload() |> Repo.preload(:gear)
+
+      assert updated_gear.strava_id == gear_attrs.strava_id
+      assert updated_gear.name == gear_attrs.name
+      assert updated_gear.primary == gear_attrs.primary
+    end
+
+    test "updates existing gear" do
+      %{gear: [original_gear]} = athlete = :athlete |> build() |> with_gear() |> insert()
+
+      attrs = [
+        %{
+          athlete_id: athlete.id,
+          strava_id: original_gear.strava_id,
+          name: "new name",
+          primary: true,
+          inserted_at: NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second),
+          updated_at: NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second)
+        }
+      ]
+
+      assert {1, _} = Gear.insert_all(attrs)
+
+      gear_attrs = List.first(attrs)
+      %{gear: [updated_gear]} = athlete |> Repo.reload() |> Repo.preload(:gear)
+
+      assert updated_gear.strava_id == original_gear.strava_id
+      assert updated_gear.name == gear_attrs.name
+      assert updated_gear.primary == gear_attrs.primary
+
+      assert updated_gear.inserted_at == original_gear.inserted_at
+    end
+  end
+end
