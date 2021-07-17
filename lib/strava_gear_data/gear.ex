@@ -1,0 +1,27 @@
+defmodule StravaGearData.Gear do
+  @moduledoc """
+  The Gear context
+  """
+
+  alias StravaGearData.Gear.Gear
+  alias StravaGearData.Repo
+
+  @doc """
+  Insert all the gear given by the provided gear attrs.
+
+  This does a batch insert of all the provided gear and expects the attrs to
+  include the associated athlete ID and timestamps.
+
+  On conflict of the strava_id all fields are replaced except for the:
+    - id
+    - strava_id
+    - inserted_at
+  """
+  @spec insert_all([Gear.gear_attrs_t()]) :: {integer(), nil}
+  def insert_all(gear_attrs) do
+    Repo.insert_all(Gear, gear_attrs,
+      conflict_target: :strava_id,
+      on_conflict: {:replace_all_except, [:id, :strava_id, :inserted_at]}
+    )
+  end
+end

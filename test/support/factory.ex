@@ -40,6 +40,19 @@ defmodule StravaGearData.Factory do
     |> with_refresh_token()
   end
 
+  def with_gear(athlete, count \\ 1) do
+    %{athlete | gear: build_list(count, :gear, athlete: nil)}
+  end
+
+  def gear_factory() do
+    %StravaGearData.Gear.Gear{
+      athlete: build(:athlete),
+      strava_id: sequence("strava_gear_id"),
+      name: sequence("gear_name"),
+      primary: false
+    }
+  end
+
   def access_token_factory() do
     %StravaGearData.Athletes.AccessToken{
       athlete: build(:athlete),
@@ -53,6 +66,33 @@ defmodule StravaGearData.Factory do
     %StravaGearData.Athletes.RefreshToken{
       athlete: build(:athlete),
       token: "fake-token"
+    }
+  end
+
+  def api_athlete_factory() do
+    %StravaGearData.Api.Athlete{
+      id: 1234,
+      firstname: "Api",
+      lastname: "Athlete",
+      username: "api_athlete",
+      profile_medium: "https://profile.picture/of/athlete"
+    }
+  end
+
+  def with_shoes(api_athlete, count \\ 1) do
+    %{api_athlete | shoes: build_list(count, :api_gear)}
+  end
+
+  def with_bikes(api_athlete, count \\ 1) do
+    %{api_athlete | bikes: build_list(count, :api_gear)}
+  end
+
+  def api_gear_factory() do
+    %{
+      id: sequence("gear_id"),
+      name: sequence("gear_name"),
+      primary: false,
+      distance: 0 + :rand.uniform() * (10_000 - 0)
     }
   end
 end

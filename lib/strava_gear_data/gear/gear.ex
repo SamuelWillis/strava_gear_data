@@ -7,13 +7,29 @@ defmodule StravaGearData.Gear.Gear do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias StravaGearData.Athletes.Athlete
+
+  @type t :: %__MODULE__{
+          name: binary(),
+          primary: boolean(),
+          strava_id: binary(),
+          athlete: Athlete.t()
+        }
+
+  @type gear_attrs_t :: %{
+          name: binary(),
+          primary: boolean(),
+          strava_id: binary(),
+          athlete_id: binary()
+        }
+
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "gear" do
     field :name, :string
     field :primary, :boolean, default: false
     field :strava_id, :string
 
-    belongs_to :athlete, StravaGearData.Athletes.Athlete, type: :binary_id
+    belongs_to :athlete, Athlete, type: :binary_id
 
     timestamps()
   end

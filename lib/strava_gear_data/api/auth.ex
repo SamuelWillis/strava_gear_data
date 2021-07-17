@@ -25,6 +25,10 @@ defmodule StravaGearData.Api.Auth do
     |> Client.put_serializer("application/json", Jason)
   end
 
+  def access_token(params), do: OAuth2.AccessToken.new(params)
+
+  def expired?(token), do: OAuth2.AccessToken.expired?(token)
+
   def authorize_url! do
     Client.authorize_url!(client(),
       scope: "read,activity:read,profile:read_all",

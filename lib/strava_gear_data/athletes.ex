@@ -28,6 +28,12 @@ defmodule StravaGearData.Athletes do
   def get_athlete_by_strava_id(strava_id), do: Repo.get_by(Athlete, strava_id: strava_id)
 
   @doc """
+  Preload athlete tokens
+  """
+  @spec preload_tokens(Athlete.t()) :: Athlete.t()
+  def preload_tokens(athlete), do: Repo.preload(athlete, [:access_token, :refresh_token])
+
+  @doc """
   Creates a athlete.
 
   ## Examples

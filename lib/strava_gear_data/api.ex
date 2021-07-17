@@ -4,6 +4,8 @@ defmodule StravaGearData.Api do
   """
 
   alias StravaGearData.Api
+  alias StravaGearData.Athletes
+  alias StravaGearData.Authorization
 
   @doc """
   Exchange the authorization code for the token and authenticated athlete.
@@ -14,5 +16,43 @@ defmodule StravaGearData.Api do
     |> Api.Auth.get_token!()
     |> Map.fetch!(:token)
     |> Api.Token.from!()
+  end
+
+  def get_athlete(athlete) do
+    athlete
+    |> build_client()
+    |> Api.Auth.get!("/athlete", [], [])
+    |> Map.fetch!(:body)
+    |> Api.Athlete.from!()
+  end
+
+  def build_client(athlete) do
+    athlete = Athletes.preload_tokens(athlete)
+
+    expires_in = DateTime.diff(athlete.access_token.expires_at, DateTime.utc_now())
+
+    token =
+      Api.Auth.access_token(%{
+        "access_token" => athlete.access_token.token,
+        "expires_in" => expires_in,
+        "refresh_token" => athlete.refresh_token.token
+      })
+
+    client = Api.Auth.client(token: token)
+
+    case Api.Auth.expired?(token) do
+      true ->
+        client = Api.Auth.refresh_tokens!(client)
+
+        client
+        |> Map.fetch!(:token)
+        |> Api.Token.from!()
+        |> then(&Authorization.update_athlete_tokens(athlete, &1))
+
+        client
+
+      _ ->
+        client
+    end
   end
 end
