@@ -10,8 +10,8 @@
     "autoprefixer": "^10.3.4",
     "nprogress": "^0.2.0",
     "phoenix": "^1.5.12",
-    "phoenix_html": "^2.14.3",
-    "phoenix_live_view": "^0.15.7"
+    "phoenix_html": "^3.0.0",
+    "phoenix_live_view": "^0.16.0"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
