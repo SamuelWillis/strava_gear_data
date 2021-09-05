@@ -5,7 +5,7 @@ defmodule StravaGearData.MixProject do
     [
       app: :strava_gear_data,
       version: "0.1.0",
-      elixir: "~> 1.12.1",
+      elixir: "~> 1.12.2",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
