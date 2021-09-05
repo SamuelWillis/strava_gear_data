@@ -2,6 +2,7 @@ defmodule StravaGearDataWeb.AuthController do
   use StravaGearDataWeb, :controller
 
   alias StravaGearData.Authorization
+  alias StravaGearData.DataCollection
 
   plug :fetch_session when action in [:callback]
   plug :fetch_flash when action in [:callback]
@@ -14,6 +15,8 @@ defmodule StravaGearDataWeb.AuthController do
     {:ok, athlete} = Authorization.authorize_athlete_from!(code: code)
 
     session_token = Phoenix.Token.sign(StravaGearDataWeb.Endpoint, "athlete auth", athlete.id)
+
+    DataCollection.gather_athlete_gear(athlete)
 
     conn
     |> put_flash(

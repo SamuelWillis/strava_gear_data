@@ -16,6 +16,7 @@ defmodule StravaGearDataWeb.ConnCase do
   """
 
   use ExUnit.CaseTemplate
+  import StravaGearData.Factory
 
   using do
     quote do
@@ -23,6 +24,7 @@ defmodule StravaGearDataWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import StravaGearDataWeb.ConnCase
+      import StravaGearData.Factory
 
       alias StravaGearDataWeb.Router.Helpers, as: Routes
 
@@ -39,5 +41,17 @@ defmodule StravaGearDataWeb.ConnCase do
     end
 
     {:ok, conn: Phoenix.ConnTest.build_conn()}
+  end
+
+  def authorize_athlete(%{conn: conn}) do
+    athlete = :athlete |> build() |> with_profile() |> insert()
+    session_token = Phoenix.Token.sign(StravaGearDataWeb.Endpoint, "athlete auth", athlete.id)
+
+    conn =
+      conn
+      |> Phoenix.ConnTest.init_test_session(%{})
+      |> Plug.Conn.put_session(:token, session_token)
+
+    %{conn: conn, athlete: athlete}
   end
 end
