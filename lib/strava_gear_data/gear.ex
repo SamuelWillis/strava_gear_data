@@ -3,8 +3,20 @@ defmodule StravaGearData.Gear do
   The Gear context
   """
 
-  alias StravaGearData.Gear.Gear
+  alias StravaGearData.Athletes.Athlete
+  alias StravaGearData.Gear.Gear, as: GearEntity
   alias StravaGearData.Repo
+
+  @doc """
+  Get the gear for an athlete
+  """
+
+  @spec get_for!(Athlete.t()) :: [GearEntity.t()]
+  def get_for!(%Athlete{id: athlete_id}) do
+    GearEntity
+    |> GearEntity.by_athlete_id_query(athlete_id)
+    |> Repo.all()
+  end
 
   @doc """
   Insert all the gear given by the provided gear attrs.
@@ -17,9 +29,9 @@ defmodule StravaGearData.Gear do
     - strava_id
     - inserted_at
   """
-  @spec insert_all([Gear.gear_attrs_t()]) :: {integer(), nil}
+  @spec insert_all([GearEntity.gear_attrs_t()]) :: {integer(), nil}
   def insert_all(gear_attrs) do
-    Repo.insert_all(Gear, gear_attrs,
+    Repo.insert_all(GearEntity, gear_attrs,
       conflict_target: :strava_id,
       on_conflict: {:replace_all_except, [:id, :strava_id, :inserted_at]}
     )

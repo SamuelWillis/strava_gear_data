@@ -6,6 +6,7 @@ defmodule StravaGearData.Gear.Gear do
   """
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.Query
 
   alias StravaGearData.Athletes.Athlete
 
@@ -41,5 +42,16 @@ defmodule StravaGearData.Gear.Gear do
     |> assoc_constraint(:athlete)
     |> unique_constraint(:strava_id)
     |> validate_required([:strava_id, :name])
+  end
+
+  # --- Gear Queries --- #
+  @base_query __MODULE__
+
+  @doc """
+  Retrieve Gear by athlete ID
+  """
+  @spec by_athlete_id_query(Ecto.Queryable.t(), binary()) :: Ecto.Query.t()
+  def by_athlete_id_query(query \\ @base_query, athlete_id) do
+    from gear in query, join: athlete in Athlete, as: :athlete, on: gear.athlete_id == ^athlete_id
   end
 end
