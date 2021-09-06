@@ -1,16 +1,14 @@
+const typography = require("@tailwindcss/typography");
+
 module.exports = {
+  mode: "jit",
   purge: [
-    '../lib/**/*.ex',
-    '../lib/**/*.leex',
-    '../lib/**/*.eex',
-    './js/**/*.js'
+    "./js/**/*.js",
+    "../lib/**/*.ex",
+    "../lib/**/*.leex",
+    "../lib/**/*.eex",
+    "../lib/**/*.sface",
   ],
-  darkMode: false, // or 'media' or 'class'
-  theme: {
-    extend: {},
-  },
-  variants: {
-    extend: {},
-  },
-  plugins: [],
-}
+  darkMode: false,
+  plugins: [typography],
+};
