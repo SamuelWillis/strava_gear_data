@@ -2490,14 +2490,20 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
-"phoenix@file:../deps/phoenix":
+phoenix@^1.5.12:
   version "1.5.12"
+  resolved "https://registry.yarnpkg.com/phoenix/-/phoenix-1.5.12.tgz#25c8529320a2ef5247ae0ad5f0d0a1399d2da3b9"
+  integrity sha512-794ftgpmGOiEFyQKf96ARuJmxqh5JwQ1arQEqFp22qmDHomVK5ucS+SdJxfPZ9o1ZYXbMn52GWAjOLHzhNywIw==
 
-"phoenix_html@file:../deps/phoenix_html":
-  version "3.0.3"
+phoenix_html@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/phoenix_html/-/phoenix_html-3.0.0.tgz#3da360ee9a1904e0b197d405e0430d08995531e5"
+  integrity sha512-usD5rTKi6zckiNfY9yywELgfEpwWMxdWr+mG8qxk11gldYCAa+yirUyMXkrNalHFiTiw0V5xLsf0GHPdpIzQTA==
 
-"phoenix_live_view@file:../deps/phoenix_live_view":
+phoenix_live_view@^0.16.0:
   version "0.16.3"
+  resolved "https://registry.yarnpkg.com/phoenix_live_view/-/phoenix_live_view-0.16.3.tgz#51963f8df66ad21f6bdcaa348eb523ca0510421a"
+  integrity sha512-9fLLDJ9fvylyPPUUQ917bUErWnvSH56nJUubT+O58bwozr5VMCP55To/465w3a9bJnJ9QFN2U0GkP2/sHTXvFA==
 
 picomatch@^2.0.4, picomatch@^2.2.1, picomatch@^2.2.3:
   version "2.3.0"
