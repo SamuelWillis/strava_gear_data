@@ -5,6 +5,8 @@ defmodule StravaGearDataWeb.GearLive do
   alias StravaGearData.Athletes
   alias StravaGearData.Gear
 
+  on_mount StravaGearDataWeb.Live.Hooks.CheckPasswordProtection
+
   @impl Phoenix.LiveView
   def mount(_params, %{"token" => token}, socket) do
     {:ok, athlete_id} =
