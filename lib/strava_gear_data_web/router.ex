@@ -24,13 +24,13 @@ defmodule StravaGearDataWeb.Router do
   end
 
   scope "/", StravaGearDataWeb do
-    pipe_through([:browser, Plugs.EnsureToken])
+    pipe_through([:browser, Plugs.CheckPasswordProtection, Plugs.EnsureToken])
 
     live "/", GearLive, :index
   end
 
   scope "/signup", StravaGearDataWeb do
-    pipe_through([:browser, Plugs.EnsureNoToken])
+    pipe_through([:browser, Plugs.CheckPasswordProtection, Plugs.EnsureNoToken])
 
     live "/", AuthLive, :index
   end

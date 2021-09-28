@@ -3,9 +3,9 @@ defmodule StravaGearDataWeb.GearLiveTest do
 
   import Phoenix.LiveViewTest
 
-  setup :authorize_athlete
-
   describe "disconnected and connected mount" do
+    setup [:authorize_password, :authorize_athlete]
+
     test "renders message when no athlete gear", %{conn: conn, athlete: athlete} do
       {:ok, gear_live, disconnected_html} = live(conn, "/")
 
@@ -37,6 +37,8 @@ defmodule StravaGearDataWeb.GearLiveTest do
   end
 
   describe "handle_event/3" do
+    setup [:authorize_password, :authorize_athlete]
+
     test "delete-athlete-data redirects when deletion successful", %{conn: conn} do
       {:ok, gear_live, _disconnected_html} = live(conn, "/")
 
