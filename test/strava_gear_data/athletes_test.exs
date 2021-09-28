@@ -138,14 +138,17 @@ defmodule StravaGearData.AthletesTest do
 
   describe "delete_athlete/1" do
     setup do
-      athlete = :athlete |> build() |> with_tokens() |> insert()
+      athlete = :athlete |> build() |> with_tokens() |> with_gear(3) |> insert()
 
       %{athlete: athlete}
     end
 
     test "deletes the athlete", %{athlete: athlete} do
       assert {:ok, %Athlete{}} = Athletes.delete_athlete(athlete)
-      assert_raise Ecto.NoResultsError, fn -> Athletes.get_athlete!(athlete.id) end
+
+      assert_raise Ecto.NoResultsError, fn ->
+        Athletes.get_athlete!(athlete.id)
+      end
     end
 
     test "deletes the athlete tokens", %{athlete: athlete} do
@@ -158,6 +161,12 @@ defmodule StravaGearData.AthletesTest do
       assert_raise Ecto.NoResultsError, fn ->
         Repo.get!(RefreshToken, athlete.refresh_token.id)
       end
+    end
+
+    test "deletes the athlete gear", %{athlete: athlete} do
+      assert {:ok, %Athlete{}} = Athletes.delete_athlete(athlete)
+
+      assert [] == StravaGearData.Gear.get_for!(athlete)
     end
   end
 
