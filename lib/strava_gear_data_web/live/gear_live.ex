@@ -21,4 +21,18 @@ defmodule StravaGearDataWeb.GearLive do
 
     {:ok, socket}
   end
+
+  @impl Phoenix.LiveView
+  def handle_event("delete-athlete-data", _params, %{assigns: assigns} = socket) do
+    socket =
+      case Athletes.delete_athlete(assigns.athlete) do
+        {:ok, _deleted_athlete} ->
+          push_redirect(socket, to: Routes.auth_path(socket, :delete))
+
+        {:error, _changeset} ->
+          put_flash(socket, :error, gettext("Error deleting athlete"))
+      end
+
+    {:noreply, socket}
+  end
 end

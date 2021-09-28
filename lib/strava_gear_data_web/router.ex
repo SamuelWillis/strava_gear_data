@@ -34,6 +34,7 @@ defmodule StravaGearDataWeb.Router do
     scope path: "/auth" do
       get "/", AuthController, :auth
       get "/callback", AuthController, :callback
+      get "/delete", AuthController, :delete
     end
   end
 

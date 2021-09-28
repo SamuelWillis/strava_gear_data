@@ -18,4 +18,15 @@ defmodule StravaGearDataWeb.AuthControllerTest do
       assert redirected_to(conn, 302) == Routes.auth_path(conn, :index)
     end
   end
+
+  describe "delete/2" do
+    setup :authorize_athlete
+
+    test "redirects to auth index", %{conn: conn} do
+      conn = get(conn, Routes.auth_path(conn, :delete), %{})
+
+      assert redirected_to(conn, 302) == Routes.auth_path(conn, :index)
+      assert get_flash(conn, :info) == "Your data was deleted"
+    end
+  end
 end
