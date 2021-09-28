@@ -1,5 +1,7 @@
 use Mix.Config
 
+config :strava_gear_data, :super_secure_password, "fake-password"
+
 # Configure your database
 #
 # The MIX_TEST_PARTITION environment variable can be used

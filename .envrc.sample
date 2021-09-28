@@ -7,6 +7,9 @@ export DB_NAME=
 export DB_PASSWORD=
 export HOSTNAME=
 
-# Strava 
+# Password
+export SUPER_SECURE_PASSWORD=
+
+# Strava
 export STRAVA_CLIENT_ID=
 export STRAVA_CLIENT_SECRET=
