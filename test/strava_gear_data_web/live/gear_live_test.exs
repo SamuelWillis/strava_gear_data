@@ -35,4 +35,16 @@ defmodule StravaGearDataWeb.GearLiveTest do
       end)
     end
   end
+
+  describe "handle_event/3" do
+    test "delete-athlete-data redirects when deletion successful", %{conn: conn} do
+      {:ok, gear_live, _disconnected_html} = live(conn, "/")
+
+      gear_live
+      |> element("button", "Delete Data")
+      |> render_click()
+
+      assert_redirected(gear_live, Routes.auth_path(conn, :delete))
+    end
+  end
 end

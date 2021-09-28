@@ -4,8 +4,8 @@ defmodule StravaGearDataWeb.AuthController do
   alias StravaGearData.Authorization
   alias StravaGearData.DataCollection
 
-  plug :fetch_session when action in [:callback]
-  plug :fetch_flash when action in [:callback]
+  plug :fetch_session when action in [:callback, :delete]
+  plug :fetch_flash when action in [:callback, :delete]
 
   def auth(conn, _params) do
     redirect(conn, external: Authorization.authorize_url!())
@@ -30,6 +30,14 @@ defmodule StravaGearDataWeb.AuthController do
   def callback(conn, _params) do
     conn
     |> put_flash(:warning, "Unable to authenticate with Strava. Please try again")
+    |> redirect(to: Routes.auth_path(conn, :index))
+  end
+
+  def delete(conn, _params) do
+    conn
+    |> fetch_session()
+    |> put_session(:token, nil)
+    |> put_flash(:info, gettext("Your data was deleted"))
     |> redirect(to: Routes.auth_path(conn, :index))
   end
 end
