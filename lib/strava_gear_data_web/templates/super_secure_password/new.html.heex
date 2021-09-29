@@ -1,0 +1,23 @@
+<section class="container">
+  <%= form_for @changeset,
+    Routes.super_secure_password_path(@conn, :create),
+    [as: :super_secure_password_params, class: "max-w-sm mx-auto space-y-8"],
+    fn f -> %>
+    <header>
+      <h1 class="tracking-wide uppercase font-bold text-xl text-center">
+        <%= gettext "Enter password" %>
+      </h1>
+    </header>
+
+    <fieldset class="space-y-2">
+      <%= label f, :super_secure_password,
+        class: "block font-semibold text-md text-grey-dark" %>
+      <%= password_input f, :super_secure_password,
+        class: "w-full border py-2 px-3 text-grey-darkest rounded" %>
+      <%= error_tag f, :super_secure_password %>
+    </fieldset>
+
+    <%= submit gettext("Submit"),
+      class: "block bg-purple-400 hover:bg-purple-600 text-white uppercase text-lg mx-auto px-6 py-3 rounded" %>
+  <% end %>
+</section>

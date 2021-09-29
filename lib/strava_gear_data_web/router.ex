@@ -16,6 +16,13 @@ defmodule StravaGearDataWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/password", StravaGearDataWeb do
+    pipe_through([:browser])
+
+    get "/", SuperSecurePasswordController, :new
+    post "/", SuperSecurePasswordController, :create
+  end
+
   scope "/", StravaGearDataWeb do
     pipe_through([:browser, Plugs.EnsureToken])
 
