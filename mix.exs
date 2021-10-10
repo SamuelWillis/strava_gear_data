@@ -37,7 +37,7 @@ defmodule StravaGearData.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:oauth2, "~> 2.0"},
-      {:phoenix, "~> 1.5.12"},
+      {:phoenix, "~> 1.6.2"},
       {:phoenix_ecto, "~> 4.4"},
       {:phoenix_html, "~> 3.0"},
       {:phoenix_live_dashboard, "~> 0.5"},
