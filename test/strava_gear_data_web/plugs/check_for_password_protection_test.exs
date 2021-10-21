@@ -3,14 +3,14 @@ defmodule StravaGearGearDataWeb.Plugs.CheckPasswordProtesctionTest do
 
   alias StravaGearDataWeb.Plugs.CheckPasswordProtection
 
-  @super_secure_password Application.compile_env!(:strava_gear_data, :super_secure_password)
-
   test "continues when valid password in session", %{conn: conn} do
+    super_secure_password = Application.get_env(:strava_gear_data, :super_secure_password)
+
     password_token =
       Phoenix.Token.sign(
         StravaGearDataWeb.Endpoint,
         "super secure password",
-        @super_secure_password
+        super_secure_password
       )
 
     conn =

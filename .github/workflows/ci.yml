@@ -158,6 +158,7 @@ jobs:
           DB_USER: postgres
           DB_PASSWORD: postgres
           DB_NAME: test_db
+          SUPER_SECURE_PASSWORD: "fake-password"
 
   dispatchRelease:
     name: Invoke CD
