@@ -5,7 +5,6 @@ defmodule StravaGearDataWeb.SuperSecurePasswordController do
 
   @data %{}
   @types %{super_secure_password: :string}
-  @super_secure_password Application.compile_env!(:strava_gear_data, :super_secure_password)
 
   def new(conn, _params) do
     render(conn, "new.html", changeset: password_changeset())
@@ -23,7 +22,7 @@ defmodule StravaGearDataWeb.SuperSecurePasswordController do
           Phoenix.Token.sign(
             StravaGearDataWeb.Endpoint,
             "super secure password",
-            @super_secure_password
+            super_secure_password()
           )
 
         conn
@@ -42,8 +41,14 @@ defmodule StravaGearDataWeb.SuperSecurePasswordController do
     |> Changeset.validate_change(:super_secure_password, &validate_super_secure_password/2)
   end
 
-  defp validate_super_secure_password(_field, value) when value != @super_secure_password,
-    do: [super_secure_password: "Wrong Password"]
+  defp validate_super_secure_password(_field, value) do
+    if value != super_secure_password() do
+      [super_secure_password: "Wrong Password"]
+    else
+      []
+    end
+  end
 
-  defp validate_super_secure_password(_field, _value), do: []
+  def super_secure_password,
+    do: Application.get_env(:strava_gear_data, :super_secure_password)
 end

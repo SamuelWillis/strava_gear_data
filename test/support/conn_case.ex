@@ -18,8 +18,6 @@ defmodule StravaGearDataWeb.ConnCase do
   use ExUnit.CaseTemplate
   import StravaGearData.Factory
 
-  @super_secure_password Application.compile_env!(:strava_gear_data, :super_secure_password)
-
   using do
     quote do
       # Import conveniences for testing with connections
@@ -46,11 +44,13 @@ defmodule StravaGearDataWeb.ConnCase do
   end
 
   def authorize_password(%{conn: conn}) do
+    super_secure_password = Application.get_env(:strava_gear_data, :super_secure_password)
+
     password_token =
       Phoenix.Token.sign(
         StravaGearDataWeb.Endpoint,
         "super secure password",
-        @super_secure_password
+        super_secure_password
       )
 
     conn =

@@ -7,13 +7,14 @@ defmodule StravaGearDataWeb.Plugs.CheckPasswordProtection do
 
   alias StravaGearDataWeb.Router.Helpers, as: Routes
 
-  @super_secure_password Application.compile_env!(:strava_gear_data, :super_secure_password)
-
   def init(opts), do: opts
 
   def call(conn, _opts) do
-    with password when is_binary(password) <- get_session(conn, :super_secure_password),
-         {:ok, @super_secure_password} <-
+    super_secure_password = Application.get_env(:strava_gear_data, :super_secure_password)
+
+    with password when is_binary(password) <-
+           get_session(conn, :super_secure_password),
+         {:ok, ^super_secure_password} <-
            Phoenix.Token.verify(StravaGearDataWeb.Endpoint, "super secure password", password,
              max_age: :infinity
            ) do
