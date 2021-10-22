@@ -6,7 +6,7 @@ defmodule StravaGearDataWeb.Live.Hooks.CheckPasswordProtection do
 
   alias StravaGearDataWeb.Router.Helpers, as: Routes
 
-  def mount(_params, %{"super_secure_password" => password}, socket) do
+  def on_mount(:default, _params, %{"super_secure_password" => password}, socket) do
     super_secure_password = Application.get_env(:strava_gear_data, :super_secure_password)
 
     case Phoenix.Token.verify(
