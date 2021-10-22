@@ -26,6 +26,18 @@ defmodule StravaGearData.Api do
     |> Api.Athlete.from!()
   end
 
+  def get_activities_for(athlete, opts \\ []) do
+    page = Keyword.get(opts, :page, 1)
+
+    client_opts = [params: %{page: page, per_page: 50}]
+
+    athlete
+    |> build_client()
+    |> Api.Auth.get!("/athlete/activities", [], client_opts)
+    |> Map.fetch!(:body)
+    |> Enum.map(&Api.Activity.from!/1)
+  end
+
   def build_client(athlete) do
     athlete = Athletes.preload_tokens(athlete)
 
