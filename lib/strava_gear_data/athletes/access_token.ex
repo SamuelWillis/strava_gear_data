@@ -12,11 +12,12 @@ defmodule StravaGearData.Athletes.AccessToken do
           athlete: StravaGearData.Athletes.Athlete.t()
         }
 
+  @foreign_key_type :binary_id
   schema "access_tokens" do
     field :expires_at, :utc_datetime
     field :token, :string
     field :token_type, :string
-    belongs_to :athlete, StravaGearData.Athletes.Athlete, type: :binary_id
+    belongs_to :athlete, StravaGearData.Athletes.Athlete
 
     timestamps()
   end
