@@ -8,6 +8,7 @@ defmodule StravaGearData.Gear.Gear do
   import Ecto.Changeset
   import Ecto.Query
 
+  alias StravaGearData.Activities.Activity
   alias StravaGearData.Athletes.Athlete
 
   @type t :: %__MODULE__{
@@ -31,6 +32,7 @@ defmodule StravaGearData.Gear.Gear do
     field :primary, :boolean, default: false
     field :strava_id, :string
 
+    has_many :activities, Activity
     belongs_to :athlete, Athlete
 
     timestamps()

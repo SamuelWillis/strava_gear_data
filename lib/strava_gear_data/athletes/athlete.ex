@@ -7,6 +7,7 @@ defmodule StravaGearData.Athletes.Athlete do
 
   alias StravaGearData.Athletes.AccessToken
   alias StravaGearData.Athletes.RefreshToken
+  alias StravaGearData.Activities.Activity
   alias StravaGearData.Gear.Gear
 
   @type t :: %__MODULE__{
@@ -30,6 +31,7 @@ defmodule StravaGearData.Athletes.Athlete do
     field :profile_picture, :string
 
     has_many :gear, Gear, on_replace: :delete_if_exists
+    has_many :activities, Activity
 
     has_one :access_token, AccessToken, on_replace: :update
     has_one :refresh_token, RefreshToken, on_replace: :update
