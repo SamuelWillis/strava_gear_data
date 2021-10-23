@@ -25,12 +25,13 @@ defmodule StravaGearData.Gear.Gear do
         }
 
   @primary_key {:id, :binary_id, autogenerate: true}
+  @foreign_key_type :binary_id
   schema "gear" do
     field :name, :string
     field :primary, :boolean, default: false
     field :strava_id, :string
 
-    belongs_to :athlete, Athlete, type: :binary_id
+    belongs_to :athlete, Athlete
 
     timestamps()
   end

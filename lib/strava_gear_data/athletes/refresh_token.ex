@@ -10,9 +10,10 @@ defmodule StravaGearData.Athletes.RefreshToken do
           athlete: StravaGearData.Athletes.Athlete.t()
         }
 
+  @foreign_key_type :binary_id
   schema "refresh_tokens" do
     field :token, :string
-    belongs_to :athlete, StravaGearData.Athletes.Athlete, type: :binary_id
+    belongs_to :athlete, StravaGearData.Athletes.Athlete
 
     timestamps()
   end
