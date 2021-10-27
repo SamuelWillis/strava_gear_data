@@ -18,7 +18,7 @@ defmodule StravaGearData.Gear.Gear do
           athlete: Athlete.t()
         }
 
-  @type gear_attrs_t :: %{
+  @type attrs_t :: %{
           name: binary(),
           primary: boolean(),
           strava_id: binary(),
