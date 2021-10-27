@@ -19,9 +19,26 @@ defmodule StravaGearData.Activities.Activity do
           total_elevation_gain: float(),
           elapsed_time: integer(),
           moving_time: integer(),
-          start_date_local: integer(),
+          start_date_local: DateTime.t(),
           timezone: String.t(),
-          gear_id: String.t()
+          gear: Gear.t()
+        }
+
+  @type attrs_t :: %{
+          strava_id: integer(),
+          athlete_id: Ecto.UUID.t(),
+          gear_id: Ecto.UUID.t(),
+          name: String.t(),
+          type: String.t(),
+          achievement_count: integer(),
+          distance: float(),
+          average_speed: float(),
+          max_speed: float(),
+          total_elevation_gain: float(),
+          elapsed_time: integer(),
+          moving_time: integer(),
+          start_date_local: DateTime.t(),
+          timezone: String.t()
         }
 
   @primary_key {:id, :binary_id, autogenerate: true}
@@ -34,7 +51,7 @@ defmodule StravaGearData.Activities.Activity do
     field :max_speed, :float
     field :moving_time, :integer
     field :name, :string
-    field :start_date_local, :integer
+    field :start_date_local, :utc_datetime
     field :strava_id, :integer
     field :timezone, :string
     field :total_elevation_gain, :float

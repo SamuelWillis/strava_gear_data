@@ -29,7 +29,7 @@ defmodule StravaGearData.Gear do
     - strava_id
     - inserted_at
   """
-  @spec insert_all([GearEntity.gear_attrs_t()]) :: {integer(), nil}
+  @spec insert_all([GearEntity.attrs_t()]) :: {integer(), nil}
   def insert_all(gear_attrs) do
     Repo.insert_all(GearEntity, gear_attrs,
       conflict_target: :strava_id,

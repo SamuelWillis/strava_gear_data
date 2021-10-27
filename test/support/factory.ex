@@ -44,12 +44,34 @@ defmodule StravaGearData.Factory do
     %{athlete | gear: build_list(count, :gear, athlete: nil)}
   end
 
+  def with_activities(athlete, count \\ 1) do
+    %{athlete | activities: build_list(count, :activity, athlete: nil)}
+  end
+
   def gear_factory() do
     %StravaGearData.Gear.Gear{
       athlete: build(:athlete),
       strava_id: sequence("strava_gear_id"),
       name: sequence("gear_name"),
       primary: false
+    }
+  end
+
+  def activity_factory() do
+    %StravaGearData.Activities.Activity{
+      name: sequence("activity_name"),
+      strava_id: sequence("strava_activity_id", & &1),
+      type: "Ride",
+      achievement_count: 10,
+      distance: 10.0,
+      average_speed: 1.0,
+      max_speed: 1.0,
+      total_elevation_gain: 10.0,
+      elapsed_time: 420,
+      moving_time: 420,
+      start_date_local: "2021-10-19T16:04:09Z",
+      timezone: "(GMT-07:00) America/Edmonton",
+      athlete: build(:athlete)
     }
   end
 
@@ -93,6 +115,24 @@ defmodule StravaGearData.Factory do
       name: sequence("gear_name"),
       primary: false,
       distance: 0 + :rand.uniform() * (10_000 - 0)
+    }
+  end
+
+  def api_activity_factory() do
+    %StravaGearData.Api.Activity{
+      id: sequence("activity_id", & &1),
+      name: "Activity Name",
+      type: "Ride",
+      achievement_count: 10,
+      distance: 10.0,
+      average_speed: 1.0,
+      max_speed: 1.0,
+      total_elevation_gain: 10.0,
+      elapsed_time: 420,
+      moving_time: 420,
+      start_date_local: "2021-10-19T16:04:09Z",
+      timezone: "(GMT-07:00) America/Edmonton",
+      gear_id: sequence("gear_id")
     }
   end
 end
