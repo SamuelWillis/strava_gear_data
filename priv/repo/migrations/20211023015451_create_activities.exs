@@ -14,7 +14,7 @@ defmodule StravaGearData.Repo.Migrations.CreateActivities do
       add(:total_elevation_gain, :float)
       add(:elapsed_time, :integer)
       add(:moving_time, :integer)
-      add(:start_date_local, :integer)
+      add(:start_date_local, :utc_datetime)
       add(:timezone, :string)
 
       add(:gear_id, references(:gear, type: :uuid, on_delete: :delete_all, type: :binary_id))
