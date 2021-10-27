@@ -15,6 +15,24 @@ defmodule StravaGearData.Gear.GearTest do
       assert "can't be blank" in errors_on(changeset).name
       assert "can't be blank" in errors_on(changeset).strava_id
     end
+
+    test "requires existing athlete in the DB" do
+      attrs = %{
+        athlete_id: Ecto.UUID.generate(),
+        name: "Bike",
+        primary: true,
+        strava_id: "gear_id"
+      }
+
+      assert {:error, changeset} =
+               %Gear{}
+               |> Gear.changeset(attrs)
+               |> Repo.insert()
+
+      refute changeset.valid?, inspect(changeset)
+
+      assert "does not exist" in errors_on(changeset).athlete
+    end
   end
 
   describe "by_athlete_id_query/2" do
