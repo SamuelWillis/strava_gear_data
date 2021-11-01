@@ -4,7 +4,7 @@ defmodule StravaGearData.Repo.Migrations.CreateActivities do
   def change do
     create table(:activities, primary_key: false) do
       add(:id, :uuid, primary_key: true)
-      add(:strava_id, :integer)
+      add(:strava_id, :bigint, null: false)
       add(:name, :string)
       add(:type, :string)
       add(:achievement_count, :integer)
