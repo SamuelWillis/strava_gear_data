@@ -138,7 +138,8 @@ defmodule StravaGearData.AthletesTest do
 
   describe "delete_athlete/1" do
     setup do
-      athlete = :athlete |> build() |> with_tokens() |> with_gear(3) |> insert()
+      athlete =
+        :athlete |> build() |> with_tokens() |> with_gear(3) |> with_activities(3) |> insert()
 
       %{athlete: athlete}
     end
@@ -166,7 +167,13 @@ defmodule StravaGearData.AthletesTest do
     test "deletes the athlete gear", %{athlete: athlete} do
       assert {:ok, %Athlete{}} = Athletes.delete_athlete(athlete)
 
-      assert [] == StravaGearData.Gear.get_for!(athlete)
+      assert [] == Repo.all(StravaGearData.Gear.Gear)
+    end
+
+    test "deletes the athlete activities", %{athlete: athlete} do
+      assert {:ok, %Athlete{}} = Athletes.delete_athlete(athlete)
+
+      assert [] == Repo.all(StravaGearData.Activities.Activity)
     end
   end
 
