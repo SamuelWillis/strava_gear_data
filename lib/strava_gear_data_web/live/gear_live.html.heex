@@ -1,36 +1,55 @@
-<header class="flex items-center">
-  <figure>
-    <img
-      class="rounded"
-      src={@athlete.profile_picture}
-      alt="Athlete profile picture"
-    />
-  </figure>
-  <h1 class="ml-4">
-    <%= gettext "Welcome, %{first_name}", first_name: @athlete.first_name %>
-  </h1>
-</header>
-
-<section class="mt-10 space-y-4">
-  <%= if @gear == [] do %>
-    <h2>
-      <%= gettext "We are gathering your gear from Strava." %>
-    </h2>
-    <p>
-      <%= gettext "If you don't have any gear configured in Strava this page
-      will stay empty." %>
+<%= if @live_action == :gather do %>
+  <section>
+    <header class="flex items-center">
+      <h1>
+        <%= gettext "Gathering your data from Strava." %>
+      </h1>
+    </header>
+    <p class="mt-10">
+      <%= gettext "This can take a little while." %>
     </p>
-  <% else %>
-    <h2><%= gettext "Your Gear" %></h2>
-    <ul class="ml-6 space-y-2 list-disc">
-      <%= for gear <- @gear do %>
-        <li>
-          <%= gear.name %>
-        </li>
+  </section>
+<% else %>
+  <section class="space-y-4">
+    <header class="flex items-center">
+      <figure>
+        <img
+          class="rounded"
+          src={@athlete.profile_picture}
+          alt="Athlete profile picture"
+        />
+      </figure>
+      <h1 class="ml-4">
+        <%= gettext "Welcome, %{first_name}", first_name: @athlete.first_name %>
+      </h1>
+    </header>
+
+    <div class="mt-10 space-y-4">
+      <%= if @gear == [] do %>
+        <h2>
+          <%= gettext "We are gathering your gear from Strava." %>
+        </h2>
+        <p>
+          <%= gettext "If you don't have any gear configured in Strava this page
+          will stay empty." %>
+        </p>
+      <% else %>
+        <h2><%= gettext "Your Gear" %></h2>
+
+        <ul class="ml-6 space-y-2 list-disc">
+          <%= for gear <- @gear do %>
+            <li>
+              <%= gear.name %> - <%= Enum.count(gear.activities) %>
+            </li>
+            <%= for activity <- gear.activities do %>
+              <%= activity.name %>,
+            <% end %>
+          <% end %>
+        </ul>
       <% end %>
-    </ul>
-  <% end %>
-  <button phx-click="delete-athlete-data">
-    <%= gettext "Delete Data" %>
-  </button>
-</section>
+    </div>
+    <button phx-click="delete-athlete-data">
+      <%= gettext "Delete Data" %>
+    </button>
+  </section>
+<% end %>

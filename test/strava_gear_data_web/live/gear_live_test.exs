@@ -3,11 +3,11 @@ defmodule StravaGearDataWeb.GearLiveTest do
 
   import Phoenix.LiveViewTest
 
-  describe "disconnected and connected mount" do
+  describe "mount/3" do
     setup [:authorize_password, :authorize_athlete]
 
-    test "renders message when no athlete gear", %{conn: conn, athlete: athlete} do
-      {:ok, gear_live, disconnected_html} = live(conn, "/")
+    test ":index renders message when no athlete gear", %{conn: conn, athlete: athlete} do
+      {:ok, gear_live, disconnected_html} = live(conn, Routes.gear_path(conn, :index))
 
       connected_html = render(gear_live)
 
@@ -18,10 +18,10 @@ defmodule StravaGearDataWeb.GearLiveTest do
       assert connected_html =~ "We are gathering your gear from Strava."
     end
 
-    test "renders athlete gear", %{conn: conn, athlete: athlete} do
+    test ":index renders athlete gear", %{conn: conn, athlete: athlete} do
       gear = insert_list(3, :gear, athlete: athlete)
 
-      {:ok, gear_live, disconnected_html} = live(conn, "/")
+      {:ok, gear_live, disconnected_html} = live(conn, Routes.gear_path(conn, :index))
 
       connected_html = render(gear_live)
 
@@ -34,13 +34,23 @@ defmodule StravaGearDataWeb.GearLiveTest do
         assert connected_html =~ g.name
       end)
     end
+
+    test ":gather renders gathering message", %{conn: conn} do
+      conn = get(conn, Routes.gear_path(conn, :gather))
+
+      disconnected_html = html_response(conn, 200)
+      assert disconnected_html =~ "Gathering your data from Strava."
+
+      assert disconnected_html =~
+               "This can take a little while."
+    end
   end
 
   describe "handle_event/3" do
     setup [:authorize_password, :authorize_athlete]
 
     test "delete-athlete-data redirects when deletion successful", %{conn: conn} do
-      {:ok, gear_live, _disconnected_html} = live(conn, "/")
+      {:ok, gear_live, _disconnected_html} = live(conn, Routes.gear_path(conn, :index))
 
       gear_live
       |> element("button", "Delete Data")

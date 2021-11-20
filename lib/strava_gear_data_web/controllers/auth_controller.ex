@@ -2,7 +2,6 @@ defmodule StravaGearDataWeb.AuthController do
   use StravaGearDataWeb, :controller
 
   alias StravaGearData.Authorization
-  alias StravaGearData.DataCollection
 
   plug :fetch_session when action in [:callback, :delete]
   plug :fetch_flash when action in [:callback, :delete]
@@ -16,15 +15,13 @@ defmodule StravaGearDataWeb.AuthController do
 
     session_token = Phoenix.Token.sign(StravaGearDataWeb.Endpoint, "athlete auth", athlete.id)
 
-    DataCollection.gather_athlete_gear(athlete)
-
     conn
     |> put_flash(
       :info,
       "Successfully authorized your account. We are now fetching your data which can take a little while."
     )
     |> put_session(:token, session_token)
-    |> redirect(to: Routes.gear_path(conn, :index))
+    |> redirect(to: Routes.gear_path(conn, :gather))
   end
 
   def callback(conn, _params) do
