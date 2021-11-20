@@ -2,6 +2,7 @@ defmodule StravaGearDataWeb.Router do
   use StravaGearDataWeb, :router
 
   alias StravaGearDataWeb.Plugs
+  alias StravaGearDataWeb.Live.Hooks
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -26,7 +27,10 @@ defmodule StravaGearDataWeb.Router do
   scope "/", StravaGearDataWeb do
     pipe_through([:browser, Plugs.CheckPasswordProtection, Plugs.EnsureToken])
 
-    live "/", GearLive, :index
+    live_session :gear, on_mount: [Hooks.CheckPasswordProtection, Hooks.LoadAthlete] do
+      live "/", GearLive, :index
+      live "/gather", GearLive, :gather
+    end
   end
 
   scope "/signup", StravaGearDataWeb do
