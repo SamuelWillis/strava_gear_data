@@ -53,8 +53,15 @@ defmodule StravaGearData.Gear.Gear do
   @doc """
   Retrieve Gear by athlete ID
   """
-  @spec by_athlete_id_query(Ecto.Queryable.t(), binary()) :: Ecto.Query.t()
-  def by_athlete_id_query(query \\ @base_query, athlete_id) do
-    from gear in query, join: athlete in Athlete, as: :athlete, on: gear.athlete_id == ^athlete_id
+  @spec by_athlete_id_query(Ecto.Queryable.t(), Ecto.UUID.t(), any()) ::
+          Ecto.Query.t()
+  def by_athlete_id_query(query \\ @base_query, athlete_id, opts) do
+    preload = Keyword.get(opts, :preload)
+
+    from gear in query,
+      join: athlete in Athlete,
+      as: :athlete,
+      on: gear.athlete_id == ^athlete_id,
+      preload: ^preload
   end
 end

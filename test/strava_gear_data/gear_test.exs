@@ -1,6 +1,7 @@
 defmodule StravaGearData.GearTest do
   use StravaGearData.DataCase, async: true
 
+  alias StravaGearData.Athletes.Athlete
   alias StravaGearData.Gear
 
   describe "get_for!/1" do
@@ -30,6 +31,23 @@ defmodule StravaGearData.GearTest do
       athlete = build(:athlete) |> insert()
 
       assert [] == Gear.get_for!(athlete)
+    end
+
+    test "returns gear with preloaded assoc" do
+      athlete = build(:athlete) |> with_gear() |> insert()
+
+      assert [gear] = Gear.get_for!(athlete, preload: :athlete)
+
+      assert %Athlete{} = gear.athlete
+    end
+
+    test "returns gear with multiple preloaded assocs" do
+      athlete = build(:athlete) |> with_gear() |> insert()
+
+      assert [gear] = Gear.get_for!(athlete, preload: [:activities, :athlete])
+
+      assert %Athlete{} = gear.athlete
+      assert is_list(gear.activities)
     end
   end
 
