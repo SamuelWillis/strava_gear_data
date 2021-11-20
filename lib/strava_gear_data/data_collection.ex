@@ -5,13 +5,23 @@ defmodule StravaGearData.DataCollection do
 
   alias StravaGearData.Activities
   alias StravaGearData.Api
+  alias StravaGearData.Athletes.Athlete
   alias StravaGearData.DataCollection.Core
   alias StravaGearData.Gear
   alias StravaGearData.Repo
 
   @doc """
-  Gather the athlete's gear from Strava and persist it to the DB
+  Gather the athlete's gear from Strava and persist it into the DB
   """
+  @spec gather_athlete_data(Athlete.t()) :: :ok
+  def gather_athlete_data(athlete) do
+    gather_athlete_gear(athlete)
+    gather_athlete_activities(athlete)
+
+    :ok
+  end
+
+  @doc false
   def gather_athlete_gear(athlete) do
     athlete = Repo.preload(athlete, :gear)
     api_athlete = Api.get_athlete(athlete)
@@ -20,6 +30,7 @@ defmodule StravaGearData.DataCollection do
     {_, nil} = Gear.insert_all(gear_attrs)
   end
 
+  @doc false
   def gather_athlete_activities(athlete) do
     athlete = Repo.preload(athlete, [:activities, :gear])
 
