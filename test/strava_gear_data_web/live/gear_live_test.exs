@@ -34,16 +34,6 @@ defmodule StravaGearDataWeb.GearLiveTest do
         assert connected_html =~ g.name
       end)
     end
-
-    test ":gather renders gathering message", %{conn: conn} do
-      conn = get(conn, Routes.gear_path(conn, :gather))
-
-      disconnected_html = html_response(conn, 200)
-      assert disconnected_html =~ "Gathering your data from Strava."
-
-      assert disconnected_html =~
-               "This can take a little while."
-    end
   end
 
   describe "handle_event/3" do

@@ -91,6 +91,27 @@ defmodule StravaGearData.Factory do
     }
   end
 
+  def api_token_factory() do
+    %StravaGearData.Api.Token{
+      access_token: "fake-access-token",
+      expires_at: 1_618_987_211,
+      other_params: %{
+        athlete: %StravaGearData.Api.Athlete{
+          bikes: [],
+          firstname: "Samuel",
+          id: 7_660_837,
+          lastname: "Willis",
+          profile_medium:
+            "https://dgalywyr863hv.cloudfront.net/pictures/athletes/7660837/5433166/1/medium.jpg",
+          shoes: [],
+          username: "samuelwillis"
+        }
+      },
+      refresh_token: "fake-refresh-token",
+      token_type: "Bearer"
+    }
+  end
+
   def api_athlete_factory() do
     %StravaGearData.Api.Athlete{
       id: 1234,

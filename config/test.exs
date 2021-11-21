@@ -22,3 +22,5 @@ config :strava_gear_data, StravaGearDataWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+config :strava_gear_data, :strava_api, StravaGearData.Api.MockClient
