@@ -3,6 +3,9 @@
 
 Mox.defmock(StravaGearData.Api.MockClient, for: StravaGearData.Api.Client)
 
-ExUnit.start()
+Mox.defmock(StravaGearData.DataCollection.MockSupervisor,
+  for: StravaGearData.DataCollection.Supervisor
+)
 
+ExUnit.start()
 Ecto.Adapters.SQL.Sandbox.mode(StravaGearData.Repo, :manual)

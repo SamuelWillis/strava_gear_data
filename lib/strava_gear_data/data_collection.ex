@@ -1,55 +1,55 @@
 defmodule StravaGearData.DataCollection do
   @moduledoc """
-  Gathers data from Strava and stores it in the database
+  Handles all the logic related to gathering an Athlete's data from strava and
+  persisting it to the DB.
   """
 
-  alias StravaGearData.Activities
-  alias StravaGearData.Api
   alias StravaGearData.Athletes.Athlete
-  alias StravaGearData.DataCollection.Core
-  alias StravaGearData.Gear
-  alias StravaGearData.Repo
+
+  @supervisor Application.compile_env(
+                :strava_gear_data,
+                :data_collection_supervisor,
+                StravaGearData.DataCollection.Supervisor
+              )
 
   @doc """
-  Gather the athlete's gear from Strava and persist it into the DB
+  Starts the gather athlete data process.
+
+  Broadcasts a :gather_athlete_data_complete event containing the updated
+  athlete after the work is complete.
   """
-  @spec gather_athlete_data(Athlete.t()) :: :ok
+  @spec gather_athlete_data(Athlete.t()) :: {:ok, pid()}
   def gather_athlete_data(athlete) do
-    gather_athlete_gear(athlete)
-    gather_athlete_activities(athlete)
-
-    :ok
+    supervisor().gather_athlete_data(athlete)
   end
 
-  @doc false
-  def gather_athlete_gear(athlete) do
-    athlete = Repo.preload(athlete, :gear)
-    api_athlete = Api.get_athlete(athlete)
+  @doc """
+  Subscribe to the Data Collection PubSub broadcasts
+  """
+  @spec subscribe(Athlete.t()) :: :ok | {:error, term()}
+  def subscribe(athlete),
+    do: Phoenix.PubSub.subscribe(StravaGearData.PubSub, topic(athlete))
 
-    gear_attrs = Core.build_gear_attrs(athlete, api_athlete)
-    {_, nil} = Gear.insert_all(gear_attrs)
-  end
+  @doc """
+  Unsubscribe from the Data Collection PubSub broadcasts
+  """
+  @spec unsubscribe(Athlete.t()) :: :ok | {:error, term()}
+  def unsubscribe(athlete),
+    do: Phoenix.PubSub.unsubscribe(StravaGearData.PubSub, topic(athlete))
 
-  @doc false
-  def gather_athlete_activities(athlete) do
-    athlete = Repo.preload(athlete, [:activities, :gear])
+  @doc """
+  Broadcast an event on the Data Collection PubSub topic
+  """
+  @spec broadcast(Athlete.t(), atom() | tuple()) :: :ok | {:error, term()}
+  def broadcast(athlete, event),
+    do:
+      Phoenix.PubSub.broadcast(
+        StravaGearData.PubSub,
+        topic(athlete),
+        event
+      )
 
-    gather_athlete_activity_page(athlete)
-  end
+  defp topic(athlete), do: "data_collection:#{athlete.id}"
 
-  defp gather_athlete_activity_page(athlete, page \\ 1) do
-    task = Task.async(fn -> Api.get_activities_for(athlete, page: page) end)
-
-    case Task.await(task, 6000) do
-      [_ | _] = api_activities ->
-        activity_attrs = Core.build_activity_attrs(athlete, api_activities)
-
-        Activities.insert_all(activity_attrs)
-
-        gather_athlete_activity_page(athlete, page + 1)
-
-      [] ->
-        page
-    end
-  end
+  defp supervisor(), do: @supervisor
 end

@@ -45,7 +45,7 @@ defmodule StravaGearData.DataCollection.CoreTest do
     end
   end
 
-  describe "build_athlete_attrs/2" do
+  describe "build_activity_attrs/2" do
     test "returns empty array for no activities" do
       athlete = insert(:athlete)
 
