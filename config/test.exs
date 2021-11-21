@@ -24,3 +24,7 @@ config :strava_gear_data, StravaGearDataWeb.Endpoint,
 config :logger, level: :warn
 
 config :strava_gear_data, :strava_api, StravaGearData.Api.MockClient
+
+config :strava_gear_data,
+       :data_collection_supervisor,
+       StravaGearData.DataCollection.MockSupervisor

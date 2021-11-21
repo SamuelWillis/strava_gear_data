@@ -16,22 +16,15 @@ defmodule StravaGearDataWeb.AuthControllerTest do
   end
 
   describe "callback/2" do
-    setup do
-      on_exit(fn ->
-        StravaGearData.DataCollection.Supervisor
-        |> Task.Supervisor.children()
-        |> Enum.map(
-          &Task.Supervisor.terminate_child(StravaGearData.DataCollection.Supervisor, &1)
-        )
-      end)
-    end
-
     test "redirects to gear index when auth successful", %{conn: conn} do
       code = "fake-code"
 
-      StravaGearData.Api.MockClient
-      |> expect(:exchange_code_for_token, fn code: ^code ->
+      expect(StravaGearData.Api.MockClient, :exchange_code_for_token, fn code: ^code ->
         build(:api_token)
+      end)
+
+      expect(StravaGearData.DataCollection.MockSupervisor, :gather_athlete_data, fn _athlete ->
+        :ok
       end)
 
       conn = get(conn, Routes.auth_path(conn, :callback), %{code: code})

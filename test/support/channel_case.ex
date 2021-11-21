@@ -31,6 +31,11 @@ defmodule StravaGearDataWeb.ChannelCase do
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(StravaGearData.Repo)
 
+    Mox.stub_with(
+      StravaGearData.DataCollection.MockSupervisor,
+      StravaGearData.DataCollection.StubSupervisor
+    )
+
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(StravaGearData.Repo, {:shared, self()})
     end
