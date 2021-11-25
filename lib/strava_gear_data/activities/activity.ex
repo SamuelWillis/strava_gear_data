@@ -67,6 +67,7 @@ defmodule StravaGearData.Activities.Activity do
   def changeset(activity, attrs) do
     activity
     |> cast(attrs, [
+      :athlete_id,
       :strava_id,
       :name,
       :type,

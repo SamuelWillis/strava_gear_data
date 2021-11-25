@@ -24,5 +24,18 @@ defmodule StravaGearData.Activities.ActivityTest do
       assert "can't be blank" in errors_on(changeset).start_date_local
       assert "can't be blank" in errors_on(changeset).timezone
     end
+
+    test "requires exisiting athlete in the DB" do
+      attrs = params_for(:activity, athlete_id: Ecto.UUID.generate())
+
+      assert {:error, changeset} =
+               %Activity{}
+               |> Activity.changeset(attrs)
+               |> Repo.insert()
+
+      refute changeset.valid?, inspect(changeset)
+
+      assert "does not exist" in errors_on(changeset).athlete
+    end
   end
 end
