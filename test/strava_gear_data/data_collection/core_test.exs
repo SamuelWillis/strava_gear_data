@@ -14,7 +14,7 @@ defmodule StravaGearData.DataCollection.CoreTest do
     test "returns array of gear attrs for bike" do
       athlete = :athlete |> insert() |> Repo.preload(:gear)
 
-      api_athlete = build(:api_athlete) |> with_bikes()
+      api_athlete = :api_athlete |> build() |> with_bikes()
 
       assert [bike_attrs] = Core.build_gear_attrs(athlete, api_athlete)
 
@@ -24,7 +24,7 @@ defmodule StravaGearData.DataCollection.CoreTest do
     test "returns array of gear attrs for shoes" do
       athlete = :athlete |> insert() |> Repo.preload(:gear)
 
-      api_athlete = build(:api_athlete) |> with_shoes()
+      api_athlete = :api_athlete |> build() |> with_shoes()
 
       assert [shoe_attrs] = Core.build_gear_attrs(athlete, api_athlete)
 

@@ -12,7 +12,7 @@ defmodule StravaGearData.Api.Auth do
   def client(opts \\ []) do
     token = Keyword.get(opts, :token, nil)
 
-    Client.new(
+    [
       authorize_url: "https://www.strava.com/oauth/authorize",
       client_id: config(:client_id),
       client_secret: config(:client_secret),
@@ -21,7 +21,8 @@ defmodule StravaGearData.Api.Auth do
       strategy: __MODULE__,
       token: token,
       token_url: "https://www.strava.com/oauth/token"
-    )
+    ]
+    |> Client.new()
     |> Client.put_serializer("application/json", Jason)
   end
 

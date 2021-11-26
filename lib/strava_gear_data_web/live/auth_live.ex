@@ -2,7 +2,7 @@ defmodule StravaGearDataWeb.AuthLive do
   @moduledoc false
   use StravaGearDataWeb, :live_view
 
-  @impl true
+  @impl Phoenix.LiveView
   def render(assigns) do
     ~L"""
     <h1>Sign Up</h1>
