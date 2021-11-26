@@ -6,7 +6,7 @@ defmodule StravaGearData.GearTest do
 
   describe "get_for!/1" do
     test "returns single gear" do
-      athlete = build(:athlete) |> with_gear() |> insert()
+      athlete = :athlete |> build() |> with_gear() |> insert()
 
       assert [gear] = Gear.get_for!(athlete)
 
@@ -15,7 +15,7 @@ defmodule StravaGearData.GearTest do
     end
 
     test "returns many gear" do
-      athlete = build(:athlete) |> with_gear(5) |> insert()
+      athlete = :athlete |> build() |> with_gear(5) |> insert()
 
       athlete_gear = Gear.get_for!(athlete)
 
@@ -28,13 +28,13 @@ defmodule StravaGearData.GearTest do
     end
 
     test "returns no gear" do
-      athlete = build(:athlete) |> insert()
+      athlete = :athlete |> build() |> insert()
 
       assert [] == Gear.get_for!(athlete)
     end
 
     test "returns gear with preloaded assoc" do
-      athlete = build(:athlete) |> with_gear() |> insert()
+      athlete = :athlete |> build() |> with_gear() |> insert()
 
       assert [gear] = Gear.get_for!(athlete, preload: :athlete)
 
@@ -42,7 +42,7 @@ defmodule StravaGearData.GearTest do
     end
 
     test "returns gear with multiple preloaded assocs" do
-      athlete = build(:athlete) |> with_gear() |> insert()
+      athlete = :athlete |> build() |> with_gear() |> insert()
 
       assert [gear] = Gear.get_for!(athlete, preload: [:activities, :athlete])
 

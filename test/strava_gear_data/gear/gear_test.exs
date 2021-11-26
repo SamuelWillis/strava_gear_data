@@ -37,7 +37,7 @@ defmodule StravaGearData.Gear.GearTest do
 
   describe "by_athlete_id_query/2" do
     test "returns proper query" do
-      %{id: athlete_id} = build(:athlete) |> with_gear() |> insert()
+      %{id: athlete_id} = :athlete |> build() |> with_gear() |> insert()
 
       expected_query =
         from gear in Gear,
