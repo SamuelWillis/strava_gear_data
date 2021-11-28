@@ -25,12 +25,26 @@ defmodule StravaGearData.Gear.Gear do
           athlete_id: binary()
         }
 
+  defmodule Stats do
+    @moduledoc false
+
+    use Ecto.Schema
+
+    embedded_schema do
+    end
+  end
+
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "gear" do
     field :name, :string
     field :primary, :boolean, default: false
     field :strava_id, :string
+
+    field :distance, :float, virtual: true
+    field :elapsed_time, :integer, virtual: true
+    field :total_elevation_gain, :float, virtual: true
+    field :activity_count, :integer, virtual: true
 
     has_many :activities, Activity
     belongs_to :athlete, Athlete
@@ -59,9 +73,21 @@ defmodule StravaGearData.Gear.Gear do
     preload = Keyword.get(opts, :preload)
 
     from gear in query,
-      join: athlete in Athlete,
-      as: :athlete,
-      on: gear.athlete_id == ^athlete_id,
+      left_join: athlete in assoc(gear, :athlete),
+      where: gear.athlete_id == ^athlete_id,
       preload: ^preload
+  end
+
+  def with_stats_query(query \\ @base_query) do
+    from gear in query,
+      left_join: activity in assoc(gear, :activities),
+      group_by: gear.id,
+      select: gear,
+      select_merge: %{
+        distance: sum(activity.distance),
+        elapsed_time: sum(activity.elapsed_time),
+        total_elevation_gain: sum(activity.total_elevation_gain),
+        activity_count: count(activity)
+      }
   end
 end
