@@ -10,13 +10,13 @@ defmodule StravaGearData.Gear do
   @doc """
   Get the gear for an athlete
   """
-
   @spec get_for!(Athlete.t(), preload: any()) :: [GearEntity.t()]
   def get_for!(%Athlete{id: athlete_id}, opts \\ []) do
     preload = Keyword.get(opts, :preload, [])
 
     GearEntity
     |> GearEntity.by_athlete_id_query(athlete_id, preload: preload)
+    |> GearEntity.with_stats_query()
     |> Repo.all()
   end
 

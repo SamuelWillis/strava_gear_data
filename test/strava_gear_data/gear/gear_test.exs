@@ -1,7 +1,6 @@
 defmodule StravaGearData.Gear.GearTest do
   use StravaGearData.DataCase, async: true
 
-  alias StravaGearData.Athletes.Athlete
   alias StravaGearData.Gear.Gear
 
   describe "changeset/2" do
@@ -32,21 +31,6 @@ defmodule StravaGearData.Gear.GearTest do
       refute changeset.valid?, inspect(changeset)
 
       assert "does not exist" in errors_on(changeset).athlete
-    end
-  end
-
-  describe "by_athlete_id_query/2" do
-    test "returns proper query" do
-      %{id: athlete_id} = :athlete |> build() |> with_gear() |> insert()
-
-      expected_query =
-        from gear in Gear,
-          join: athlete in Athlete,
-          as: :athlete,
-          on: gear.athlete_id == ^athlete_id,
-          preload: [nil]
-
-      assert inspect(expected_query) == inspect(Gear.by_athlete_id_query(athlete_id, []))
     end
   end
 end

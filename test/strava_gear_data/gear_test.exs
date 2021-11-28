@@ -23,6 +23,7 @@ defmodule StravaGearData.GearTest do
 
       Enum.each(athlete_gear, fn gear ->
         assert is_struct(gear, Gear.Gear)
+
         assert gear.athlete_id == athlete.id
       end)
     end
@@ -48,6 +49,29 @@ defmodule StravaGearData.GearTest do
 
       assert %Athlete{} = gear.athlete
       assert is_list(gear.activities)
+    end
+
+    test "returns gear with stats loaded" do
+      athlete = :athlete |> build() |> with_gear() |> insert()
+
+      assert [gear] = Gear.get_for!(athlete, preload: :activities)
+
+      assert gear.distance ==
+               gear.activities
+               |> Enum.map(& &1.distance)
+               |> Enum.sum()
+
+      assert gear.elapsed_time ==
+               gear.activities
+               |> Enum.map(& &1.elapsed_time)
+               |> Enum.sum()
+
+      assert gear.total_elevation_gain ==
+               gear.activities
+               |> Enum.map(& &1.total_elevation_gain)
+               |> Enum.sum()
+
+      assert gear.activity_count == Enum.count(gear.activities)
     end
   end
 
