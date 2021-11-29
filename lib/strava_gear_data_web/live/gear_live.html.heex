@@ -25,18 +25,36 @@
         will stay empty." %>
       </p>
     <% else %>
-      <h2><%= gettext "Your Gear" %></h2>
-
-      <ul class="ml-6 space-y-2 list-disc">
-        <%= for gear <- @gear do %>
-          <li>
-            <%= gear.name %> - <%= Enum.count(gear.activities) %>
-          </li>
-          <%= for activity <- gear.activities do %>
-            <%= activity.name %>,
-          <% end %>
-        <% end %>
-      </ul>
+      <%= for gear <- @gear do %>
+        <h2 class="text-lg font-bold"><%= gear.name %></h2>
+        <dl class="w-1/2 grid grid-cols-2">
+          <dt class="font-semibold">Activity Count</dt>
+          <dd>
+            <%= if gear.activity_count, do: gear.activity_count, else: 0 %>
+          </dd>
+          <dt class="font-semibold">Distance</dt>
+          <dd>
+            <%= if gear.distance,
+              do: "#{gear.distance |> Decimal.from_float() |> Decimal.div(1000) |> Decimal.round(2)} km",
+              else: "-"
+            %>
+          </dd>
+          <dt class="font-semibold">Elevation Gain</dt>
+          <dd>
+            <%= if gear.total_elevation_gain,
+              do: "#{gear.total_elevation_gain |> Decimal.from_float() |> Decimal.round(2)} m",
+              else: "-"
+            %>
+          </dd>
+          <dt class="font-semibold">Elapsed Time</dt>
+          <dd>
+            <%= if gear.elapsed_time,
+              do: "#{gear.elapsed_time} seconds",
+              else: "-"
+            %>
+          </dd>
+        </dl>
+      <% end %>
     <% end %>
   </div>
   <button phx-click="delete-athlete-data">
