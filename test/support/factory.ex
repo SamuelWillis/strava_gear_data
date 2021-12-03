@@ -53,7 +53,8 @@ defmodule StravaGearData.Factory do
       athlete: build(:athlete),
       strava_id: sequence("strava_gear_id"),
       name: sequence("gear_name"),
-      primary: false
+      primary: false,
+      activities: build_list(5, :activity)
     }
   end
 
@@ -62,13 +63,13 @@ defmodule StravaGearData.Factory do
       name: sequence("activity_name"),
       strava_id: sequence("strava_activity_id", & &1),
       type: "Ride",
-      achievement_count: 10,
-      distance: 10.0,
-      average_speed: 1.0,
-      max_speed: 1.0,
-      total_elevation_gain: 10.0,
-      elapsed_time: 420,
-      moving_time: 420,
+      achievement_count: Enum.random(1..50),
+      distance: random_float(1, 100),
+      average_speed: random_float(1, 10),
+      max_speed: random_float(1, 10),
+      total_elevation_gain: random_float(1, 2000),
+      elapsed_time: Enum.random(1..10_000),
+      moving_time: Enum.random(1..10_000),
       start_date_local: "2021-10-19T16:04:09Z",
       timezone: "(GMT-07:00) America/Edmonton",
       athlete: build(:athlete)
@@ -156,4 +157,6 @@ defmodule StravaGearData.Factory do
       gear_id: sequence("gear_id")
     }
   end
+
+  defp random_float(low \\ 0, high \\ 100), do: low + (high - low) * :rand.uniform()
 end
