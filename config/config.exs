@@ -5,7 +5,7 @@
 # is restricted to this project.
 
 # General application configuration
-use Mix.Config
+import Config
 
 config :strava_gear_data,
   ecto_repos: [StravaGearData.Repo]

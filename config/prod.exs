@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 config :strava_gear_data, :env, :prod
 
