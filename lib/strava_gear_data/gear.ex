@@ -8,6 +8,19 @@ defmodule StravaGearData.Gear do
   alias StravaGearData.Repo
 
   @doc """
+  Get a specific piece of gear for an athlete
+
+  Raises `Ecto.NoResultsError` if gear is not found
+  """
+  def get_athlete_gear!(%Athlete{id: athlete_id}, id) do
+    GearEntity
+    |> GearEntity.by_athlete_id_query(athlete_id)
+    |> GearEntity.with_stats_query()
+    |> GearEntity.preload_query(:activities)
+    |> Repo.get!(id)
+  end
+
+  @doc """
   Get the gear for an athlete
   """
   @spec get_for!(Athlete.t(), preload: any()) :: [GearEntity.t()]
@@ -15,8 +28,9 @@ defmodule StravaGearData.Gear do
     preload = Keyword.get(opts, :preload, [])
 
     GearEntity
-    |> GearEntity.by_athlete_id_query(athlete_id, preload: preload)
+    |> GearEntity.by_athlete_id_query(athlete_id)
     |> GearEntity.with_stats_query()
+    |> GearEntity.preload_query(preload)
     |> Repo.all()
   end
 
