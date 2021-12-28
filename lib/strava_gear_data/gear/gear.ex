@@ -25,15 +25,6 @@ defmodule StravaGearData.Gear.Gear do
           athlete_id: binary()
         }
 
-  defmodule Stats do
-    @moduledoc false
-
-    use Ecto.Schema
-
-    embedded_schema do
-    end
-  end
-
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "gear" do
