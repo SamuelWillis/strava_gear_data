@@ -60,7 +60,7 @@ defmodule StravaGearData.Api.Auth do
   end
 
   defp redirect_uri(:prod),
-    do: "https://strava.samuelwillis.dev/auth/callback"
+    do: "https://strava.samuelwillis.dev/api/auth/callback"
 
   defp redirect_uri(_), do: "http://localhost:4000/api/auth/callback"
 
