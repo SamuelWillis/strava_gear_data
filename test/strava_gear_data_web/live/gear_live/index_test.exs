@@ -1,4 +1,4 @@
-defmodule StravaGearDataWeb.GearLiveTest do
+defmodule StravaGearDataWeb.GearLive.IndexTest do
   use StravaGearDataWeb.ConnCase, async: true
 
   import Phoenix.LiveViewTest

@@ -28,7 +28,7 @@ defmodule StravaGearDataWeb.Router do
     pipe_through([:browser, Plugs.CheckPasswordProtection, Plugs.EnsureToken])
 
     live_session :gear, on_mount: [Hooks.CheckPasswordProtection, Hooks.LoadAthlete] do
-      live "/", GearLive, :index
+      live "/", GearLive.Index, :index, as: :gear
     end
   end
 
