@@ -33,6 +33,8 @@ config :strava_gear_data, StravaGearData.Repo,
 # Do not print debug messages in production
 config :logger, level: :info
 
+config :strava_gear_data, :redirect_uri, "http://localhost:4000/api/auth/callback"
+
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key
