@@ -58,15 +58,12 @@ defmodule StravaGearData.Gear.Gear do
   @doc """
   Retrieve Gear by athlete ID
   """
-  @spec by_athlete_id_query(Ecto.Queryable.t(), Ecto.UUID.t(), any()) ::
+  @spec by_athlete_id_query(Ecto.Queryable.t(), Ecto.UUID.t()) ::
           Ecto.Query.t()
-  def by_athlete_id_query(query \\ @base_query, athlete_id, opts) do
-    preload = Keyword.get(opts, :preload)
-
+  def by_athlete_id_query(query \\ @base_query, athlete_id) do
     from gear in query,
       left_join: athlete in assoc(gear, :athlete),
-      where: gear.athlete_id == ^athlete_id,
-      preload: ^preload
+      where: gear.athlete_id == ^athlete_id
   end
 
   def with_stats_query(query \\ @base_query) do
@@ -80,5 +77,10 @@ defmodule StravaGearData.Gear.Gear do
         total_elevation_gain: sum(activity.total_elevation_gain),
         activity_count: count(activity)
       }
+  end
+
+  def preload_query(query, preloads) do
+    from gear in query,
+      preload: ^preloads
   end
 end

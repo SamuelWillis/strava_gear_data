@@ -4,6 +4,34 @@ defmodule StravaGearData.GearTest do
   alias StravaGearData.Athletes.Athlete
   alias StravaGearData.Gear
 
+  describe "get_athlete_gear!/2" do
+    setup do
+      {:ok, athlete: insert(:athlete)}
+    end
+
+    test "returns piece of gear for athlete", %{athlete: athlete} do
+      gear = insert(:gear, athlete: athlete)
+
+      assert %Gear.Gear{} = fetched_gear = Gear.get_athlete_gear!(athlete, gear.id)
+
+      assert fetched_gear.id == gear.id
+      assert fetched_gear.athlete_id == athlete.id
+    end
+
+    test "throws error if no gear found", %{athlete: athlete} do
+      assert_raise Ecto.NoResultsError, fn ->
+        Gear.get_athlete_gear!(athlete, Ecto.UUID.generate())
+      end
+    end
+
+    test "throws error if gear does not belong to athlete", %{athlete: athlete} do
+      assert_raise Ecto.NoResultsError, fn ->
+        gear = insert(:gear)
+        Gear.get_athlete_gear!(athlete, gear.id)
+      end
+    end
+  end
+
   describe "get_for!/1" do
     test "returns single gear" do
       athlete = :athlete |> build() |> with_gear() |> insert()
