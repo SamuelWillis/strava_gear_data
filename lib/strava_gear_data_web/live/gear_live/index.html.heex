@@ -1,17 +1,4 @@
 <section class="space-y-4">
-  <header class="flex items-center">
-    <figure>
-      <img
-        class="rounded"
-        src={@athlete.profile_picture}
-        alt="Athlete profile picture"
-      />
-    </figure>
-    <h1 class="ml-4">
-      <%= gettext "Welcome, %{first_name}", first_name: @athlete.first_name %>
-    </h1>
-  </header>
-
   <div class="mt-10 space-y-4">
     <button phx-click="gather-athlete-data">
       <%= gettext "Gather Data" %>

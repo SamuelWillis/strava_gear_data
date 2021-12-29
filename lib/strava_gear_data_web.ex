@@ -37,6 +37,8 @@ defmodule StravaGearDataWeb do
       import Phoenix.Controller,
         only: [get_flash: 1, get_flash: 2, view_module: 1, view_template: 1]
 
+      import StravaGearDataWeb.Components
+
       # Include shared imports and aliases for views
       unquote(view_helpers())
     end
@@ -47,6 +49,8 @@ defmodule StravaGearDataWeb do
       use Phoenix.LiveView,
         layout: {StravaGearDataWeb.LayoutView, "live.html"}
 
+      import StravaGearDataWeb.Components
+
       unquote(view_helpers())
     end
   end
@@ -54,6 +58,14 @@ defmodule StravaGearDataWeb do
   def live_component do
     quote do
       use Phoenix.LiveComponent
+
+      unquote(view_helpers())
+    end
+  end
+
+  def component do
+    quote do
+      use Phoenix.Component
 
       unquote(view_helpers())
     end
