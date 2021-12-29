@@ -6,15 +6,13 @@ defmodule StravaGearDataWeb.GearLive.IndexTest do
   describe "mount/3" do
     setup [:authorize_password, :authorize_athlete]
 
-    test ":index renders message when no athlete gear", %{conn: conn, athlete: athlete} do
+    test ":index renders message when no athlete gear", %{conn: conn} do
       {:ok, gear_live, disconnected_html} = live(conn, Routes.gear_path(conn, :index))
 
       connected_html = render(gear_live)
 
-      assert disconnected_html =~ "Welcome, #{athlete.first_name}"
       assert disconnected_html =~ "We are gathering your gear from Strava."
 
-      assert connected_html =~ "Welcome, #{athlete.first_name}"
       assert connected_html =~ "We are gathering your gear from Strava."
     end
 
@@ -24,10 +22,6 @@ defmodule StravaGearDataWeb.GearLive.IndexTest do
       {:ok, gear_live, disconnected_html} = live(conn, Routes.gear_path(conn, :index))
 
       connected_html = render(gear_live)
-
-      assert disconnected_html =~ "Welcome, #{athlete.first_name}"
-
-      assert connected_html =~ "Welcome, #{athlete.first_name}"
 
       Enum.each(gear, fn g ->
         assert disconnected_html =~ g.name
