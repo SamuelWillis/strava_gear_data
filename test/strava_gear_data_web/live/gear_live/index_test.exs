@@ -21,12 +21,25 @@ defmodule StravaGearDataWeb.GearLive.IndexTest do
 
       {:ok, gear_live, disconnected_html} = live(conn, Routes.gear_path(conn, :index))
 
-      connected_html = render(gear_live)
-
       Enum.each(gear, fn g ->
+        assert gear_live
+               |> element("a", g.name)
+               |> has_element?()
+
         assert disconnected_html =~ g.name
-        assert connected_html =~ g.name
       end)
+    end
+
+    test "clicking gear name takes you to gear show page", %{conn: conn, athlete: athlete} do
+      [first_gear | _] = insert_list(3, :gear, athlete: athlete)
+
+      {:ok, gear_live, _disconnected_html} = live(conn, Routes.gear_path(conn, :index))
+
+      assert gear_live
+             |> element("a", first_gear.name)
+             |> render_click()
+
+      assert_redirected(gear_live, Routes.gear_path(conn, :show, first_gear))
     end
   end
 

@@ -14,7 +14,7 @@
     <% else %>
       <%= for gear <- @gear do %>
         <h2 class="text-lg font-bold">
-          <%= gear.name %>
+          <%= live_redirect gear.name, to: Routes.gear_path(@socket, :show, gear) %>
         </h2>
         <dl class="w-1/2 grid grid-cols-2">
           <dt class="font-semibold">Activity Count</dt>
