@@ -29,6 +29,7 @@ defmodule StravaGearDataWeb.Router do
 
     live_session :gear, on_mount: [Hooks.CheckPasswordProtection, Hooks.LoadAthlete] do
       live "/", GearLive.Index, :index, as: :gear
+      live "/gear/:id", GearLive.Show, :show, as: :gear
     end
   end
 
