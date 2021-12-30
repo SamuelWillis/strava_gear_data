@@ -5,6 +5,7 @@ defmodule StravaGearDataWeb.GearLive.Index do
   alias StravaGearData.Athletes
   alias StravaGearData.DataCollection
   alias StravaGearData.Gear
+  alias StravaGearDataWeb.GearLive
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
