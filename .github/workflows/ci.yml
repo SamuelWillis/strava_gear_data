@@ -15,8 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        otp: [24.0.2]
-        elixir: [1.13.1]
+        otp: [24.3.3]
+        elixir: [1.13.3]
 
     steps:
       - uses: actions/checkout@v2
@@ -84,8 +84,8 @@ jobs:
     needs: [elixirSetup, jsSetup]
     strategy:
       matrix:
-        otp: [24.0.2]
-        elixir: [1.13.1]
+        otp: [24.3.3]
+        elixir: [1.13.3]
         node: [14.15.1]
 
     services:
