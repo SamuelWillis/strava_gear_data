@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [14.15.1]
+        node: [16.14.2]
 
     steps:
       - uses: actions/checkout@v2
@@ -86,7 +86,7 @@ jobs:
       matrix:
         otp: [24.3.3]
         elixir: [1.13.3]
-        node: [14.15.1]
+        node: [16.14.2]
 
     services:
       db:
