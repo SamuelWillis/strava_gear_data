@@ -11,7 +11,7 @@
     "phoenix_html": "^3.1.0",
     "phoenix_live_view": "^0.17.10",
     "topbar": "^1.0.1",
-    "uplot": "^1.6.20"
+    "uplot": "^1.6.21"
   },
   "devDependencies": {
     "@babel/core": "^7.18.2",
@@ -22,13 +22,13 @@
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.5.1",
     "css-minimizer-webpack-plugin": "^4.0.0",
-    "mini-css-extract-plugin": "^2.4.5",
+    "mini-css-extract-plugin": "^2.6.1",
     "postcss": "^8.4.14",
     "postcss-import": "^14.0.2",
     "postcss-loader": "^7.0.0",
     "tailwindcss": "^2.2.19",
     "terser-webpack-plugin": "^5.3.3",
     "webpack": "5.x",
-    "webpack-cli": "^4.9.1"
+    "webpack-cli": "^4.10.0"
   }
 }
