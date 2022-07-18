@@ -2717,20 +2717,20 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
-phoenix@^1.6.10:
-  version "1.6.10"
-  resolved "https://registry.yarnpkg.com/phoenix/-/phoenix-1.6.10.tgz#6a5d0a330b32070fb7f90b96efa1244ba7c4da08"
-  integrity sha512-KfYAJrrw95JGaOlvmZ+lFJZhSfQmo4SVOj6s175/V8YxqhYGO5EGacdrJxQmJ6uhaK4H3S6b0wkC1T33qU/d8Q==
+phoenix@^1.6.11:
+  version "1.6.11"
+  resolved "https://registry.yarnpkg.com/phoenix/-/phoenix-1.6.11.tgz#e29c3658c8fd6ba509e87130d2b1b20adc6a9a53"
+  integrity sha512-z/MSg9yY20JhTSj6tKmOYE9p+PuU+FVstYtgBfIZPGNLKhSuV9Zcs9LLLKWeiJ9EUzaXS/QeO8Po4+jJnyNfMw==
 
 phoenix_html@^3.1.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/phoenix_html/-/phoenix_html-3.2.0.tgz#4a30e5c331a72abababa1f3b81a9fe2c0e5a43d7"
   integrity sha512-zv7PIZk0MPkF0ax8n465Q6w86+sGAy5cTem6KcbkUbdgxGc0y3WZmzkM2bSlYdSGbLEZfjXxos1G72xXsha6xA==
 
-phoenix_live_view@^0.17.10:
-  version "0.17.10"
-  resolved "https://registry.yarnpkg.com/phoenix_live_view/-/phoenix_live_view-0.17.10.tgz#ea8f849d9b49dd00f2f9a1468038d225c184279a"
-  integrity sha512-oHSoH0IdJ1I5uAYjH2A1KlBmwra6LgcUrHlAP3EEorrZyMpbhBJjNNhXxhBu6dmcxqnaAbwsIXMQRLi6KjJZIg==
+phoenix_live_view@^0.17.11:
+  version "0.17.11"
+  resolved "https://registry.yarnpkg.com/phoenix_live_view/-/phoenix_live_view-0.17.11.tgz#dfedd444c8671416d144d8db1bfc0672aea30072"
+  integrity sha512-OL0yCzPeV2hjwJIjLWkNDIJ3D+pGhprbIK/s2Y0CImggq0t0TcueNjTkKnTu0wnMalH0EmQXt9R024XDjiTtiQ==
 
 picocolors@^1.0.0:
   version "1.0.0"
@@ -2825,10 +2825,10 @@ postcss-load-config@^3.1.0:
     lilconfig "^2.0.5"
     yaml "^1.10.2"
 
-postcss-loader@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/postcss-loader/-/postcss-loader-7.0.0.tgz#367d10eb1c5f1d93700e6b399683a6dc7c3af396"
-  integrity sha512-IDyttebFzTSY6DI24KuHUcBjbAev1i+RyICoPEWcAstZsj03r533uMXtDn506l6/wlsRYiS5XBdx7TpccCsyUg==
+postcss-loader@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/postcss-loader/-/postcss-loader-7.0.1.tgz#4c883cc0a1b2bfe2074377b7a74c1cd805684395"
+  integrity sha512-VRviFEyYlLjctSM93gAZtcJJ/iSkPZ79zWbN/1fSH+NisBByEiVLqpdVDrPLVSi8DX0oJo12kL/GppTBdKVXiQ==
   dependencies:
     cosmiconfig "^7.0.0"
     klona "^2.0.5"
@@ -3558,10 +3558,10 @@ universalify@^2.0.0:
   resolved "https://registry.yarnpkg.com/universalify/-/universalify-2.0.0.tgz#75a4984efedc4b08975c5aeb73f530d02df25717"
   integrity sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==
 
-uplot@^1.6.21:
-  version "1.6.21"
-  resolved "https://registry.yarnpkg.com/uplot/-/uplot-1.6.21.tgz#39030f64dccf3c777ce2cc04742d46111ceec7f8"
-  integrity sha512-Xd7m2GSHyzhz+mP9CzYTalzp9WDlHzTorNY1yDvg6E+wiCwMIIY+MLfNveObyp3qVMH4kP8mOhRX4k4S9YLHRQ==
+uplot@^1.6.22:
+  version "1.6.22"
+  resolved "https://registry.yarnpkg.com/uplot/-/uplot-1.6.22.tgz#28a136c7c5fce92ce5e25f38f19314a029bec390"
+  integrity sha512-2jtSb/YHUgtmIUn0+QJjf7ggcJicb5PKe7ijBiRDTPsG/f8F/MFayZ+g6/0kATNkDyF/qQsHJDmCp6cxncg1EQ==
 
 uri-js@^4.2.2:
   version "4.4.1"
