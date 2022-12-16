@@ -24,7 +24,7 @@
     "css-minimizer-webpack-plugin": "^4.0.0",
     "mini-css-extract-plugin": "^2.6.1",
     "postcss": "^8.4.14",
-    "postcss-import": "^14.0.2",
+    "postcss-import": "^15.1.0",
     "postcss-loader": "^7.0.0",
     "tailwindcss": "^2.2.19",
     "terser-webpack-plugin": "^5.3.3",
